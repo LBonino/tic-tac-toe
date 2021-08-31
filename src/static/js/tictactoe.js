@@ -30,3 +30,16 @@ const gameboard = (() => {
         validMarks
     };
 })();
+
+const Player = (mark) => {
+    const _mark = mark.toLowerCase()
+    if (!gameboard.validMarks.includes(_mark)) {
+        return console.error("Invalid mark: mark must be 'x' or 'y'");
+    }
+
+    const makeMove = (positionX, positionY) => {
+        gameboard.placePiece(_mark, positionX, positionY);
+    }
+
+    return {makeMove};
+};
