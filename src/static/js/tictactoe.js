@@ -1,5 +1,6 @@
-const gameboard = (function () {
+const gameboard = (() => {
     let _squareGrid = [["", "", ""], ["", "", ""], ["", "", ""]];
+    const validMarks = ["x", "o"];
 
     const getState = () => _squareGrid; 
     const reset = () => {_squareGrid = [["", "", ""], ["", "", ""], ["", "", ""]]};
@@ -13,7 +14,6 @@ const gameboard = (function () {
     };
 
     const _isValidMove = (mark, positionX, positionY) => {
-        const validMarks = ["x", "o"];
 
         return (
             validMarks.includes(mark.toLowerCase()) &&
@@ -26,6 +26,7 @@ const gameboard = (function () {
     return {
         reset,
         getState,
-        placePiece
+        placePiece,
+        validMarks
     };
 })();
