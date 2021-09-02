@@ -32,6 +32,21 @@ const gameboard = (() => {
     };
 })();
 
+const displayController = (() => {
+    const _gameboard = document.querySelector("#gameboard");
+    const _gameboardCells = Array.from(_gameboard.children);
+
+    const drawMark = (mark, positionX, positionY) => {
+        const cell = _gameboardCells.filter((cell) => cell.dataset.positionx == positionX &&
+                                                      cell.dataset.positiony == positionY)[0];
+        cell.textContent = mark.toUpperCase();
+    }
+
+    return {
+        drawMark
+    };
+})();
+
 const Player = (mark) => {
     const _mark = mark.toLowerCase()
     if (!gameboard.getValidMarks().includes(_mark)) {
