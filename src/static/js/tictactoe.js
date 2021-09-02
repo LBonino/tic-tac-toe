@@ -7,21 +7,7 @@ const gameboard = (() => {
     const getValidMarks = () => _validMarks;
 
     const placePiece = (mark, positionX, positionY) => {
-        if (!_isValidMove(mark, positionX, positionY)) {
-            return console.error("Invalid move");
-        }
-
         _squareGrid[positionY][positionX] = mark;
-    };
-
-    const _isValidMove = (mark, positionX, positionY) => {
-
-        return (
-            getValidMarks().includes(mark.toLowerCase()) &&
-            positionX >= 0 && positionX <= 2 &&
-            positionY >= 0 && positionY <= 2 &&
-            _squareGrid[positionY][positionX] === ""
-        );
     };
     
     return {
@@ -54,8 +40,22 @@ const Player = (mark) => {
     }
 
     const makeMove = (positionX, positionY) => {
+        if (!_isValidMove(positionX, positionY)) {
+            throw Error("Invalid move");
+        }
+
         gameboard.placePiece(_mark, positionX, positionY);
+        displayController.drawMark(_mark, positionX, positionY)
     }
+
+    const _isValidMove = (positionX, positionY) => {
+        return (
+            gameboard.getValidMarks().includes(_mark) &&
+            positionX >= 0 && positionX <= 2 &&
+            positionY >= 0 && positionY <= 2 &&
+            gameboard.getState()[positionY][positionX] === ""
+        );
+    };
 
     return {makeMove};
 };
