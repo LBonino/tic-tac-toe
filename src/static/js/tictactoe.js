@@ -1,10 +1,8 @@
 const gameboard = (() => {
     let _squareGrid = [["", "", ""], ["", "", ""], ["", "", ""]];
-    const _validMarks = ["x", "o"];
 
     const getState = () => _squareGrid; 
     const reset = () => {_squareGrid = [["", "", ""], ["", "", ""], ["", "", ""]]};
-    const getValidMarks = () => _validMarks;
 
     const placePiece = (mark, positionX, positionY) => {
         _squareGrid[positionY][positionX] = mark;
@@ -13,8 +11,7 @@ const gameboard = (() => {
     return {
         reset,
         getState,
-        placePiece,
-        getValidMarks
+        placePiece
     };
 })();
 
@@ -35,7 +32,9 @@ const displayController = (() => {
 
 const Player = (mark) => {
     const _mark = mark.toLowerCase()
-    if (!gameboard.getValidMarks().includes(_mark)) {
+    const _validMarks = ["x", "o"];
+
+    if (!_validMarks.includes(_mark)) {
         return console.error("Invalid mark: mark must be 'x' or 'y'");
     }
 
@@ -50,7 +49,7 @@ const Player = (mark) => {
 
     const _isValidMove = (positionX, positionY) => {
         return (
-            gameboard.getValidMarks().includes(_mark) &&
+            _validMarks.includes(_mark) &&
             positionX >= 0 && positionX <= 2 &&
             positionY >= 0 && positionY <= 2 &&
             gameboard.getState()[positionY][positionX] === ""
