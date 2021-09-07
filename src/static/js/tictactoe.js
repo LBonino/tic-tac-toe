@@ -49,7 +49,6 @@ const Player = (mark) => {
 
     const _isValidMove = (positionX, positionY) => {
         return (
-            _validMarks.includes(_mark) &&
             positionX >= 0 && positionX <= 2 &&
             positionY >= 0 && positionY <= 2 &&
             gameboard.getState()[positionY][positionX] === ""
