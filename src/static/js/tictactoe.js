@@ -24,9 +24,12 @@ const displayController = (() => {
                                                       cell.dataset.positiony == positionY)[0];
         cell.textContent = mark.toUpperCase();
     }
+    
+    const clearGameboard = () => {_gameboardCells.forEach((cell) => cell.textContent = "")};
 
     return {
-        drawMark
+        drawMark,
+        clearGameboard
     };
 })();
 
