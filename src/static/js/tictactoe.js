@@ -27,10 +27,12 @@ const displayController = (() => {
         }
 
         const clearGameboard = () => {_gameboardCells.forEach((cell) => cell.textContent = "")};
+        const getGameboard = () => _gameboard;
 
         return {
             drawMark,
             clearGameboard,
+            getGameboard,
         };
     })();
 
@@ -40,11 +42,11 @@ const displayController = (() => {
         const toggleMenu = (state) => {
             if (state === "off") {
                 _menu.classList.add("hidden");
-                _gameboard.classList.remove("blur");
+                gameboard.getGameboard().classList.remove("blur");
             }
             else if (state === "on") {
                 _menu.classList.remove("hidden");
-                _gameboard.classList.add("blur");
+                gameboard.getGameboard().classList.add("blur");
             }
             else {
                 throw Error("Invalid argument: state must be 'off' or 'on'");
