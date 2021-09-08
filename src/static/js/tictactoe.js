@@ -42,10 +42,29 @@ const displayController = (() => {
         }
     }
 
+    const showGameModeMenu = () => {
+        const title = _menu.firstElementChild;
+        title.textContent = "Select game mode";
+
+        const singlePlayerButton = document.createElement("button");
+        singlePlayerButton.textContent = "1 player";
+        singlePlayerButton.dataset.playerNumber = 1;
+
+        const multiPlayerButton = document.createElement("button");
+        multiPlayerButton.textContent = "2 players";
+        multiPlayerButton.dataset.playerNumber = 2;
+
+        const content = _menu.lastElementChild;
+        content.classList.add("gamemode-selection")
+        content.appendChild(singlePlayerButton);
+        content.appendChild(multiPlayerButton);
+    }
+
     return {
         drawMark,
         clearGameboard,
         toggleMenu,
+        showGameModeMenu,
     };
 })();
 
