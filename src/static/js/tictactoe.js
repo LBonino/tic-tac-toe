@@ -18,18 +18,34 @@ const gameboard = (() => {
 const displayController = (() => {
     const _gameboard = document.querySelector("#gameboard");
     const _gameboardCells = Array.from(_gameboard.children);
+    const _menu = document.querySelector(".menu");
 
     const drawMark = (mark, positionX, positionY) => {
         const cell = _gameboardCells.filter((cell) => cell.dataset.positionx == positionX &&
                                                       cell.dataset.positiony == positionY)[0];
         cell.textContent = mark.toUpperCase();
     }
-    
+
     const clearGameboard = () => {_gameboardCells.forEach((cell) => cell.textContent = "")};
+
+    const toggleMenu = (state) => {
+        if (state === "off") {
+            _menu.classList.add("hidden");
+            _gameboard.classList.remove("blur");
+        }
+        else if (state === "on") {
+            _menu.classList.remove("hidden");
+            _gameboard.classList.add("blur");
+        }
+        else {
+            throw Error("Invalid argument: state must be 'off' or 'on'");
+        }
+    }
 
     return {
         drawMark,
-        clearGameboard
+        clearGameboard,
+        toggleMenu,
     };
 })();
 
