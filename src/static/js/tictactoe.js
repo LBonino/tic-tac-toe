@@ -16,55 +16,68 @@ const gameboard = (() => {
 })();
 
 const displayController = (() => {
-    const _gameboard = document.querySelector("#gameboard");
-    const _gameboardCells = Array.from(_gameboard.children);
-    const _menu = document.querySelector(".menu");
+    const gameboard = (() => {
+        const _gameboard = document.querySelector("#gameboard");
+        const _gameboardCells = Array.from(_gameboard.children);
 
-    const drawMark = (mark, positionX, positionY) => {
-        const cell = _gameboardCells.filter((cell) => cell.dataset.positionx == positionX &&
-                                                      cell.dataset.positiony == positionY)[0];
-        cell.textContent = mark.toUpperCase();
-    }
-
-    const clearGameboard = () => {_gameboardCells.forEach((cell) => cell.textContent = "")};
-
-    const toggleMenu = (state) => {
-        if (state === "off") {
-            _menu.classList.add("hidden");
-            _gameboard.classList.remove("blur");
+        const drawMark = (mark, positionX, positionY) => {
+            const cell = _gameboardCells.filter((cell) => cell.dataset.positionx == positionX &&
+                                                          cell.dataset.positiony == positionY)[0];
+            cell.textContent = mark.toUpperCase();
         }
-        else if (state === "on") {
-            _menu.classList.remove("hidden");
-            _gameboard.classList.add("blur");
+
+        const clearGameboard = () => {_gameboardCells.forEach((cell) => cell.textContent = "")};
+
+        return {
+            drawMark,
+            clearGameboard,
+        };
+    })();
+
+    const menu = (() => {
+        const _menu = document.querySelector(".menu");
+
+        const toggleMenu = (state) => {
+            if (state === "off") {
+                _menu.classList.add("hidden");
+                _gameboard.classList.remove("blur");
+            }
+            else if (state === "on") {
+                _menu.classList.remove("hidden");
+                _gameboard.classList.add("blur");
+            }
+            else {
+                throw Error("Invalid argument: state must be 'off' or 'on'");
+            }
         }
-        else {
-            throw Error("Invalid argument: state must be 'off' or 'on'");
+
+        const showGameModeMenu = () => {
+            const title = _menu.firstElementChild;
+            title.textContent = "Select game mode";
+
+            const singlePlayerButton = document.createElement("button");
+            singlePlayerButton.textContent = "1 player";
+            singlePlayerButton.dataset.playerNumber = 1;
+
+            const multiPlayerButton = document.createElement("button");
+            multiPlayerButton.textContent = "2 players";
+            multiPlayerButton.dataset.playerNumber = 2;
+
+            const content = _menu.lastElementChild;
+            content.classList.add("gamemode-selection")
+            content.appendChild(singlePlayerButton);
+            content.appendChild(multiPlayerButton);
         }
-    }
 
-    const showGameModeMenu = () => {
-        const title = _menu.firstElementChild;
-        title.textContent = "Select game mode";
-
-        const singlePlayerButton = document.createElement("button");
-        singlePlayerButton.textContent = "1 player";
-        singlePlayerButton.dataset.playerNumber = 1;
-
-        const multiPlayerButton = document.createElement("button");
-        multiPlayerButton.textContent = "2 players";
-        multiPlayerButton.dataset.playerNumber = 2;
-
-        const content = _menu.lastElementChild;
-        content.classList.add("gamemode-selection")
-        content.appendChild(singlePlayerButton);
-        content.appendChild(multiPlayerButton);
-    }
+        return {
+            toggleMenu,
+            showGameModeMenu,
+        };
+    })();
 
     return {
-        drawMark,
-        clearGameboard,
-        toggleMenu,
-        showGameModeMenu,
+        gameboard,
+        menu,
     };
 })();
 
