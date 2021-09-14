@@ -26,34 +26,34 @@ const displayController = (() => {
             cell.textContent = mark.toUpperCase();
         }
 
-        const clearGameboard = () => {_gameboardCells.forEach((cell) => cell.textContent = "")};
-        const getGameboard = () => _gameboard;
+        const clear = () => {_gameboardCells.forEach((cell) => cell.textContent = "")};
+        const getElement = () => _gameboard;
 
         return {
             drawMark,
-            clearGameboard,
-            getGameboard,
+            clear,
+            getElement,
         };
     })();
 
     const menu = (() => {
         const _menu = document.querySelector(".menu");
 
-        const toggleMenu = (state) => {
+        const toggle = (state) => {
             if (state === "off") {
                 _menu.classList.add("hidden");
-                gameboard.getGameboard().classList.remove("blur");
+                gameboard.getElement().classList.remove("blur");
             }
             else if (state === "on") {
                 _menu.classList.remove("hidden");
-                gameboard.getGameboard().classList.add("blur");
+                gameboard.getElement().classList.add("blur");
             }
             else {
                 throw Error("Invalid argument: state must be 'off' or 'on'");
             }
         }
 
-        const showGameModeMenu = () => {
+        const showGameModeSelection = () => {
             const title = _menu.firstElementChild;
             title.textContent = "Select game mode";
 
@@ -72,8 +72,8 @@ const displayController = (() => {
         }
 
         return {
-            toggleMenu,
-            showGameModeMenu,
+            toggle,
+            showGameModeSelection,
         };
     })();
 
