@@ -56,6 +56,7 @@ const displayController = (() => {
         }
 
         const showGameModeSelection = () => {
+            _clearMenu();
             _title.textContent = "Select game mode";
 
             const singlePlayerButton = document.createElement("button");
@@ -72,6 +73,7 @@ const displayController = (() => {
         }
 
         const showPlayerNameForm = () => {
+            _clearMenu();
             _title.textContent = "Enter player names";
 
             const itemPlayer1 = _createItemForPlayerName(1);
@@ -116,6 +118,14 @@ const displayController = (() => {
 
             return item;
         }
+
+        const _clearMenu = () => {
+            _title.textContent = "";
+            
+            while (_content.lastElementChild) {
+                _content.removeChild(_content.lastElementChild);
+            }
+        };
 
         return {
             toggle,
