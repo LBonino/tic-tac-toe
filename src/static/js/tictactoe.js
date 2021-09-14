@@ -38,6 +38,8 @@ const displayController = (() => {
 
     const menu = (() => {
         const _menu = document.querySelector(".menu");
+        const _title = _menu.firstElementChild;
+        const _content = _menu.lastElementChild;
 
         const toggle = (state) => {
             if (state === "off") {
@@ -54,8 +56,7 @@ const displayController = (() => {
         }
 
         const showGameModeSelection = () => {
-            const title = _menu.firstElementChild;
-            title.textContent = "Select game mode";
+            _title.textContent = "Select game mode";
 
             const singlePlayerButton = document.createElement("button");
             singlePlayerButton.textContent = "1 player";
@@ -65,15 +66,13 @@ const displayController = (() => {
             multiPlayerButton.textContent = "2 players";
             multiPlayerButton.dataset.playerNumber = 2;
 
-            const content = _menu.lastElementChild;
-            content.classList.add("gamemode-selection")
-            content.appendChild(singlePlayerButton);
-            content.appendChild(multiPlayerButton);
+            _content.classList.add("gamemode-selection")
+            _content.appendChild(singlePlayerButton);
+            _content.appendChild(multiPlayerButton);
         }
 
         const showPlayerNameForm = () => {
-            const title = _menu.firstElementChild;
-            title.textContent = "Enter player names";
+            _title.textContent = "Enter player names";
 
             const itemPlayer1 = _createItemForPlayerName(1);
             const itemPlayer2 = _createItemForPlayerName(2);
@@ -95,9 +94,8 @@ const displayController = (() => {
             const form = document.createElement("form");
             form.appendChild(unorderedList);
 
-            const content = _menu.lastElementChild;
-            content.classList.add("player-name-form");
-            content.appendChild(form);
+            _content.classList.add("player-name-form");
+            _content.appendChild(form);
         }
 
         const _createItemForPlayerName = (playerNumber) => {
