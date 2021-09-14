@@ -97,7 +97,7 @@ const Player = (mark) => {
         }
 
         gameboard.placePiece(_mark, positionX, positionY);
-        displayController.drawMark(_mark, positionX, positionY)
+        displayController.gameboard.drawMark(_mark, positionX, positionY);
     }
 
     const _isValidMove = (positionX, positionY) => {
