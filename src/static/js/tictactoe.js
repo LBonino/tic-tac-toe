@@ -71,9 +71,66 @@ const displayController = (() => {
             content.appendChild(multiPlayerButton);
         }
 
+        const showPlayerNameForm = () => {
+            const title = _menu.firstElementChild;
+            title.textContent = "Enter player names";
+
+            const labelPlayer1 = document.createElement("label");
+            labelPlayer1.htmlFor = "player1-name-input";
+            labelPlayer1.textContent = "Player 1";
+
+            const inputPlayer1 = document.createElement("input");
+            inputPlayer1.id = "player1-name-input";
+            inputPlayer1.classList.add("player-name-input");
+            inputPlayer1.name = "player1-name";
+            inputPlayer1.type = "text";
+            inputPlayer1.required = true;
+
+            const itemPlayer1 = document.createElement("li");
+            itemPlayer1.appendChild(labelPlayer1);
+            itemPlayer1.appendChild(inputPlayer1);
+
+            const labelPlayer2 = document.createElement("label");
+            labelPlayer2.htmlFor = "player2-name-input";
+            labelPlayer2.textContent = "Player 2";
+
+            const inputPlayer2 = document.createElement("input");
+            inputPlayer2.id = "player2-name-input";
+            inputPlayer2.classList.add("player-name-input");
+            inputPlayer2.name = "player2-name";
+            inputPlayer2.type = "text";
+            inputPlayer2.required = true;
+
+            const itemPlayer2 = document.createElement("li");
+            itemPlayer2.appendChild(labelPlayer2);
+            itemPlayer2.appendChild(inputPlayer2);
+
+            const startGame = document.createElement("button");
+            startGame.id = "form-submit";
+            startGame.classList.add("form-submit");
+            startGame.type = "submit";
+            startGame.textContent = "START GAME";
+
+            const itemStartGame = document.createElement("li");
+            itemStartGame.appendChild(startGame);
+
+            const unorderedList = document.createElement("ul");
+            unorderedList.appendChild(itemPlayer1);
+            unorderedList.appendChild(itemPlayer2);
+            unorderedList.appendChild(itemStartGame);
+            
+            const form = document.createElement("form");
+            form.appendChild(unorderedList);
+
+            const content = _menu.lastElementChild;
+            content.classList.add("player-name-form");
+            content.appendChild(form);
+        }
+
         return {
             toggle,
             showGameModeSelection,
+            showPlayerNameForm
         };
     })();
 
