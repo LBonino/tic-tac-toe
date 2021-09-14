@@ -75,35 +75,8 @@ const displayController = (() => {
             const title = _menu.firstElementChild;
             title.textContent = "Enter player names";
 
-            const labelPlayer1 = document.createElement("label");
-            labelPlayer1.htmlFor = "player1-name-input";
-            labelPlayer1.textContent = "Player 1";
-
-            const inputPlayer1 = document.createElement("input");
-            inputPlayer1.id = "player1-name-input";
-            inputPlayer1.classList.add("player-name-input");
-            inputPlayer1.name = "player1-name";
-            inputPlayer1.type = "text";
-            inputPlayer1.required = true;
-
-            const itemPlayer1 = document.createElement("li");
-            itemPlayer1.appendChild(labelPlayer1);
-            itemPlayer1.appendChild(inputPlayer1);
-
-            const labelPlayer2 = document.createElement("label");
-            labelPlayer2.htmlFor = "player2-name-input";
-            labelPlayer2.textContent = "Player 2";
-
-            const inputPlayer2 = document.createElement("input");
-            inputPlayer2.id = "player2-name-input";
-            inputPlayer2.classList.add("player-name-input");
-            inputPlayer2.name = "player2-name";
-            inputPlayer2.type = "text";
-            inputPlayer2.required = true;
-
-            const itemPlayer2 = document.createElement("li");
-            itemPlayer2.appendChild(labelPlayer2);
-            itemPlayer2.appendChild(inputPlayer2);
+            const itemPlayer1 = _createItemForPlayerName(1);
+            const itemPlayer2 = _createItemForPlayerName(2);
 
             const startGame = document.createElement("button");
             startGame.id = "form-submit";
@@ -125,6 +98,25 @@ const displayController = (() => {
             const content = _menu.lastElementChild;
             content.classList.add("player-name-form");
             content.appendChild(form);
+        }
+
+        const _createItemForPlayerName = (playerNumber) => {
+            const label = document.createElement("label");
+            label.htmlFor = `player${playerNumber}-name-input`;
+            label.textContent = `Player ${playerNumber}`;
+
+            const input = document.createElement("input");
+            input.id = `player${playerNumber}-name-input`;
+            input.classList.add("player-name-input");
+            input.name = `player${playerNumber}-name`;
+            input.type = `text`;
+            input.required = true;
+
+            const item = document.createElement("li");
+            item.appendChild(label);
+            item.appendChild(input);
+
+            return item;
         }
 
         return {
