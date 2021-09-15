@@ -74,10 +74,9 @@ const displayController = (() => {
 
         const showPlayerNameForm = () => {
             _clearMenu();
-            _title.textContent = "Enter player names";
+            _title.textContent = "Enter player name";
 
             const itemPlayer1 = _createItemForPlayerName(1);
-            const itemPlayer2 = _createItemForPlayerName(2);
 
             const startGame = document.createElement("button");
             startGame.id = "form-submit";
@@ -90,9 +89,16 @@ const displayController = (() => {
 
             const unorderedList = document.createElement("ul");
             unorderedList.appendChild(itemPlayer1);
-            unorderedList.appendChild(itemPlayer2);
+
+            // Add list item for player 2 if the user selects multiplayer mode
+            if (gameState.getHumanPlayerNumber() === 2) {
+                _title.textContent += "s"; // pluralize the title
+                const itemPlayer2 = _createItemForPlayerName(2);
+                unorderedList.appendChild(itemPlayer2);
+            }
+
             unorderedList.appendChild(itemStartGame);
-            
+
             const form = document.createElement("form");
             form.appendChild(unorderedList);
 
