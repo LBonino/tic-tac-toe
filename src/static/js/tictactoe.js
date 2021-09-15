@@ -186,3 +186,23 @@ const gameState = (() => {
         setHumanPlayerNumber
     }
 })();
+
+const gameController = (() => {
+    const startGameModeSelection = () => {
+        displayController.menu.showGameModeSelection();
+
+        // Make buttons for choosing game mode usable
+        const buttons = document.querySelectorAll("[data-player-number]");
+        buttons.forEach(button => {
+            button.addEventListener("click", (e) => {
+                gameState.setHumanPlayerNumber(Number(e.target.dataset.playerNumber));
+                // TODO: Implement the below method.
+                // startPlayerNameSelection();
+            });
+        })
+    }
+
+    return {
+        startGameModeSelection
+    };
+})();
