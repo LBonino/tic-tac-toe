@@ -165,7 +165,8 @@ const displayController = (() => {
     };
 })();
 
-const Player = (mark) => {
+const Player = (name, mark) => {
+    const _name = name;
     const _mark = mark.toLowerCase()
     const _validMarks = ["x", "o"];
 
@@ -190,27 +191,13 @@ const Player = (mark) => {
         );
     };
 
-    return {makeMove};
-};
-
-const gameState = (() => {
-    // Tells if the user will play against another human or a bot
-    let _humanPlayerNumber = 0;
-
-    const getHumanPlayerNumber = () => _humanPlayerNumber;
-    const setHumanPlayerNumber = (humanPlayerNumber) => {
-        if (humanPlayerNumber !== 1 && humanPlayerNumber !== 2) {
-            throw Error("Invalid argument: number of human players must be either 1 or 2");
-        }
-
-        _humanPlayerNumber = humanPlayerNumber;
-    };
+    const getName = () => _name;
 
     return {
-        getHumanPlayerNumber,
-        setHumanPlayerNumber
-    }
-})();
+        makeMove,
+        getName
+    };
+};
 
 const gameController = (() => {
     const startGameModeSelection = () => {
