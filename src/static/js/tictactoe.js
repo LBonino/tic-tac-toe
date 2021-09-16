@@ -167,6 +167,11 @@ const displayController = (() => {
 
 const Player = (name, mark) => {
     const _name = name;
+
+    if (_name.length < 2) {
+        throw new Error("Invalid name: it must be at least 2 characters long");
+    }
+
     const _mark = mark.toLowerCase()
     const _validMarks = ["x", "o"];
 
