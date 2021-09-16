@@ -15,6 +15,25 @@ const gameboard = (() => {
     };
 })();
 
+const gameState = (() => {
+    // Tells if the user will play against another human or a bot
+    let _humanPlayerNumber = 0;
+
+    const getHumanPlayerNumber = () => _humanPlayerNumber;
+    const setHumanPlayerNumber = (humanPlayerNumber) => {
+        if (humanPlayerNumber !== 1 && humanPlayerNumber !== 2) {
+            throw Error("Invalid argument: number of human players must be either 1 or 2");
+        }
+
+        _humanPlayerNumber = humanPlayerNumber;
+    };
+
+    return {
+        getHumanPlayerNumber,
+        setHumanPlayerNumber
+    }
+})();
+
 const displayController = (() => {
     const gameboard = (() => {
         const _gameboard = document.querySelector("#gameboard");
