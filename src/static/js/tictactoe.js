@@ -167,7 +167,7 @@ const displayController = (() => {
 
 const Player = (name, mark) => {
     const _validMarks = ["x", "o"];
-    if (!_validMarks.includes(_mark)) {
+    if (!_validMarks.includes(mark.toLowerCase())) {
         throw Error("Invalid mark: mark must be 'x' or 'y'");
     }
 
