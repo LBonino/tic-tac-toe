@@ -7,7 +7,7 @@ const gameboard = (() => {
     const placePiece = (mark, positionX, positionY) => {
         _squareGrid[positionY][positionX] = mark;
     };
-    
+
     return {
         reset,
         getState,
@@ -166,18 +166,17 @@ const displayController = (() => {
 })();
 
 const Player = (name, mark) => {
-    const _name = name;
-
-    if (_name.length < 2) {
-        throw new Error("Invalid name: it must be at least 2 characters long");
-    }
-
-    const _mark = mark.toLowerCase()
     const _validMarks = ["x", "o"];
-
     if (!_validMarks.includes(_mark)) {
-        return console.error("Invalid mark: mark must be 'x' or 'y'");
+        throw Error("Invalid mark: mark must be 'x' or 'y'");
     }
+
+    if (name.length < 2) {
+        throw Error("Invalid name: it must be at least 2 characters long");
+    }
+
+    const _name = name;
+    const _mark = mark.toLowerCase()
 
     const makeMove = (positionX, positionY) => {
         if (!_isValidMove(positionX, positionY)) {
