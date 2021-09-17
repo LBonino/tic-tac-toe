@@ -209,6 +209,9 @@ const Player = (name, mark, isHuman) => {
 };
 
 const gameController = (() => {
+    let _player1 = null;
+    let _player2 = null;
+
     const startGameModeSelection = () => {
         displayController.menu.showGameModeSelection();
 
@@ -221,6 +224,16 @@ const gameController = (() => {
                 // startPlayerNameSelection();
             });
         })
+    }
+
+    const _initPlayers = (namePlayer1, namePlayer2) => {
+        if (!namePlayer1) {
+            throw Error("At least one player name should be provided");
+        }
+
+        _player1 = Player(namePlayer1, "x", true);
+        _player2 = namePlayer2 ? Player(namePlayer2, "o", true) :
+                                 Player("LBot", "o", false);
     }
 
     return {
