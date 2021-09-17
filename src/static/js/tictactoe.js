@@ -166,7 +166,7 @@ const displayController = (() => {
     };
 })();
 
-const Player = (name, mark) => {
+const Player = (name, mark, isHuman) => {
     const _validMarks = ["x", "o"];
     if (!_validMarks.includes(mark.toLowerCase())) {
         throw Error("Invalid mark: mark must be 'x' or 'y'");
@@ -174,6 +174,10 @@ const Player = (name, mark) => {
 
     if (name.length < 2) {
         throw Error("Invalid name: it must be at least 2 characters long");
+    }
+
+    if (typeof isHuman !== "boolean") {
+        throw Error("Invalid argument: 'isHuman' must be a boolean")
     }
 
     const _name = name;
