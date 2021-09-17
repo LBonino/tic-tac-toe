@@ -136,6 +136,7 @@ const displayController = (() => {
             input.name = `player${playerNumber}-name`;
             input.type = `text`;
             input.required = true;
+            input.minLength = 2;
 
             const item = document.createElement("li");
             item.appendChild(label);
