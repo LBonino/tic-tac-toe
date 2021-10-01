@@ -301,9 +301,36 @@ const gameEvents = (() => {
 
         return {addListeners};
     })();
+
+    const gameStart = (() => {
+        const addListeners = () => {
+            const gameboardCells = Array.from(displayController.gameboard.getElement().children);
+            gameboardCells.forEach(cell => {
+                cell.addEventListener("click", _playTurn);
+            });
+        };
+
+        const _playTurn = function(e) {
+            const player1 = gameState.getPlayer(1);
+            const player2 = gameState.getPlayer(2);
+
+            if (gameState.getCurrentTurnPlayer() === player1) {
+                player1.makeMove(this.dataset.positionx, this.dataset.positiony);
+                gameState.setCurrentTurnPlayer(2);
+            }
+            else {
+                player2.makeMove(this.dataset.positionx, this.dataset.positiony);
+                gameState.setCurrentTurnPlayer(1);
+            }
+        };
+
+        return {addListeners};
+    })();
+
     return {
         gameModeSelection,
         playerInitialization,
+        gameStart
     };
 })();
 
