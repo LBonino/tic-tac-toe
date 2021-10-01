@@ -255,19 +255,33 @@ const Player = (name, mark, isHuman) => {
     };
 };
 
+const gameEvents = (() => {
+    const gameModeSelection = (() => {
+        const addListeners = () => {
+            const gameModebuttons = Object.values(displayController.menu.getGameModeButtons());
+            gameModebuttons.forEach(button => {
+                button.addEventListener("click", _setGameMode);
+                button.addEventListener("click", gameController.startPlayerInitialization);
+            });
+        }
+
+        const _setGameMode = (e) => {
+            gameState.setHumanPlayerNumber(Number(e.target.dataset.playerNumber));
+        }
+
+        return {addListeners};
+    })();
+
+    return {
+        gameModeSelection,
+    };
+})();
+
 const gameController = (() => {
     // Each of these methods correspond to a different phase of the game
     const startGameModeSelection = () => {
         displayController.menu.showGameModeSelection();
-
-        // Make buttons for choosing game mode usable
-        const buttons = document.querySelectorAll("[data-player-number]");
-        buttons.forEach(button => {
-            button.addEventListener("click", (e) => {
-                gameState.setHumanPlayerNumber(Number(e.target.dataset.playerNumber));
-                _startPlayerInitialization();
-            });
-        })
+        gameEvents.gameModeSelection.addListeners();
     }
 
     const _startPlayerInitialization = () => {
