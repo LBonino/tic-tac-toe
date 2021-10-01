@@ -272,8 +272,29 @@ const gameEvents = (() => {
         return {addListeners};
     })();
 
+    const playerInitialization = (() => {
+        const addListeners = () => {
+            const playerNameForm = displayController.menu.getPlayerNameForm();
+            playerNameForm.addEventListener("submit", _handleSubmission);
+            playerNameForm.addEventListener("submit", gameController.startGame);
+        };
+
+        const _handleSubmission = (e) => {
+            // prevent standard form behavior like making a new request, creating a query string, etc. 
+            e.preventDefault(); 
+ 
+            const form = e.target;
+            const namePlayer1 = form.elements["player1-name-input"].value; 
+            const namePlayer2 = (form.elements["player2-name-input"]) ? form.elements["player2-name-input"].value : 
+                                                                        undefined; 
+            gameState.setPlayers(namePlayer1, namePlayer2);
+        };
+
+        return {addListeners};
+    })();
     return {
         gameModeSelection,
+        playerInitialization,
     };
 })();
 
@@ -286,18 +307,7 @@ const gameController = (() => {
 
     const startPlayerInitialization = () => {
         displayController.menu.showPlayerNameForm();
-
-        // Make player name form usable
-        const form = document.querySelector("form");
-        form.addEventListener("submit", (e) => {
-            // prevent standard form behavior like making a new request, creating a query string, etc.
-            e.preventDefault();
-
-            const namePlayer1 = form.elements["player1-name-input"].value;
-            const namePlayer2 = (form.elements["player2-name-input"]) ? form.elements["player2-name-input"].value :
-                                                                        undefined;
-            _initPlayers(namePlayer1, namePlayer2);
-        });
+        gameEvents.playerInitialization.addListeners();
     };
 
 
