@@ -346,10 +346,15 @@ const gameController = (() => {
         gameEvents.playerInitialization.addListeners();
     };
 
-
+    const startGame = () => {
+        displayController.menu.toggle("off");
+        gameEvents.gameStart.addListeners();
+        gameState.setCurrentTurnPlayer(1);
+    };
 
     return {
         startGameModeSelection,
         startPlayerInitialization,
+        startGame
     };
 })();
