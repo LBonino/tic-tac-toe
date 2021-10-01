@@ -30,9 +30,34 @@ const gameState = (() => {
         _humanPlayerNumber = humanPlayerNumber;
     };
 
+    const getPlayer = (playerNumber) => {
+        switch (playerNumber) {
+            case 1:
+                return _player1;
+            case 2:
+                return _player2;
+            default:
+                throw Error("Invalid argument: playerNumber must be either 1 or 2");
+        }
+    };
+
+    const setPlayer = (playerNumber, name, mark, isHuman) => {
+        switch (playerNumber) {
+            case 1:
+                _player1 = Player(name, mark, isHuman);
+                break;
+            case 2:
+                _player2 = Player(name, mark, isHuman);
+                break;
+            default:
+                throw Error("Invalid argument: playerNumber must be either 1 or 2");
+        }
+    };
     return {
         getHumanPlayerNumber,
-        setHumanPlayerNumber
+        setHumanPlayerNumber,
+        getPlayer,
+        setPlayer,
     }
 })();
 
