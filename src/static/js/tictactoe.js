@@ -18,6 +18,8 @@ const gameboard = (() => {
 const gameState = (() => {
     // Tells if the user will play against another human or a bot
     let _humanPlayerNumber = 0;
+    let _player1 = null;
+    let _player2 = null;
 
     const getHumanPlayerNumber = () => _humanPlayerNumber;
     const setHumanPlayerNumber = (humanPlayerNumber) => {
@@ -209,9 +211,7 @@ const Player = (name, mark, isHuman) => {
 };
 
 const gameController = (() => {
-    let _player1 = null;
-    let _player2 = null;
-
+    // Each of these methods correspond to a different phase of the game
     const startGameModeSelection = () => {
         displayController.menu.showGameModeSelection();
 
