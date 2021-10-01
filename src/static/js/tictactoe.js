@@ -284,7 +284,7 @@ const gameController = (() => {
         gameEvents.gameModeSelection.addListeners();
     }
 
-    const _startPlayerInitialization = () => {
+    const startPlayerInitialization = () => {
         displayController.menu.showPlayerNameForm();
 
         // Make player name form usable
@@ -303,6 +303,7 @@ const gameController = (() => {
 
 
     return {
-        startGameModeSelection
+        startGameModeSelection,
+        startPlayerInitialization,
     };
 })();
