@@ -195,10 +195,15 @@ const displayController = (() => {
             }
         };
 
+        const getGameModeButtons = () => _gameModeButtons;
+        const getPlayerNameForm = () => _playerNameForm;
+
         return {
             toggle,
             showGameModeSelection,
-            showPlayerNameForm
+            showPlayerNameForm,
+            getGameModeButtons,
+            getPlayerNameForm,
         };
     })();
 
