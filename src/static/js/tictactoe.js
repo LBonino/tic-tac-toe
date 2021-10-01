@@ -96,6 +96,11 @@ const displayController = (() => {
         const _menu = document.querySelector(".menu");
         const _title = _menu.firstElementChild;
         const _content = _menu.lastElementChild;
+        const _gameModeButtons = {
+            singlePlayer: document.createElement("button"),
+            multiPlayer: document.createElement("button")
+        };
+        const _playerNameForm = document.createElement("form");
 
         const toggle = (state) => {
             if (state === "off") {
@@ -115,11 +120,11 @@ const displayController = (() => {
             _clearMenu();
             _title.textContent = "Select game mode";
 
-            const singlePlayerButton = document.createElement("button");
+            const singlePlayerButton = _gameModeButtons.singlePlayer;
             singlePlayerButton.textContent = "1 player";
             singlePlayerButton.dataset.playerNumber = 1;
 
-            const multiPlayerButton = document.createElement("button");
+            const multiPlayerButton = _gameModeButtons.multiPlayer;
             multiPlayerButton.textContent = "2 players";
             multiPlayerButton.dataset.playerNumber = 2;
 
@@ -155,7 +160,7 @@ const displayController = (() => {
 
             unorderedList.appendChild(itemStartGame);
 
-            const form = document.createElement("form");
+            const form = _playerNameForm;
             form.appendChild(unorderedList);
 
             _content.classList.add("player-name-form");
