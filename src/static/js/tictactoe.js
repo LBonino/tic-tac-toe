@@ -41,7 +41,17 @@ const gameState = (() => {
         }
     };
 
-    const setPlayer = (playerNumber, name, mark, isHuman) => {
+    const setPlayers = (namePlayer1, namePlayer2) => {
+        if (!namePlayer1) {
+            throw Error("At least one player name should be provided");
+        }
+
+        _setPlayer(1, namePlayer1, "x", true)
+        namePlayer2 ? _setPlayer(2, namePlayer2, "o", true) :
+                      _setPlayer(2, "LBot", "o", false);
+    }
+
+    const _setPlayer = (playerNumber, name, mark, isHuman) => {
         switch (playerNumber) {
             case 1:
                 _player1 = Player(name, mark, isHuman);
@@ -57,7 +67,7 @@ const gameState = (() => {
         getHumanPlayerNumber,
         setHumanPlayerNumber,
         getPlayer,
-        setPlayer,
+        setPlayers,
     }
 })();
 
@@ -266,15 +276,7 @@ const gameController = (() => {
         });
     };
 
-    const _initPlayers = (namePlayer1, namePlayer2) => {
-        if (!namePlayer1) {
-            throw Error("At least one player name should be provided");
-        }
 
-        _player1 = Player(namePlayer1, "x", true);
-        _player2 = namePlayer2 ? Player(namePlayer2, "o", true) :
-                                 Player("LBot", "o", false);
-    }
 
     return {
         startGameModeSelection
