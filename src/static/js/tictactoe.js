@@ -20,6 +20,7 @@ const gameState = (() => {
     let _humanPlayerNumber = 0;
     let _player1 = null;
     let _player2 = null;
+    let _currentTurnPlayer = null;
 
     const getHumanPlayerNumber = () => _humanPlayerNumber;
     const setHumanPlayerNumber = (humanPlayerNumber) => {
@@ -63,11 +64,19 @@ const gameState = (() => {
                 throw Error("Invalid argument: playerNumber must be either 1 or 2");
         }
     };
+
+    const getCurrentTurnPlayer = () => _currentTurnPlayer;
+    const setCurrentTurnPlayer = (playerNumber) => {
+        _currentTurnPlayer = getPlayer(playerNumber);
+    };
+
     return {
         getHumanPlayerNumber,
         setHumanPlayerNumber,
         getPlayer,
         setPlayers,
+        getCurrentTurnPlayer,
+        setCurrentTurnPlayer,
     }
 })();
 
