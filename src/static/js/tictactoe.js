@@ -257,10 +257,12 @@ const Player = (name, mark, isHuman) => {
     };
 
     const getName = () => _name;
+    const getMark = () => _mark;
 
     return {
         makeMove,
-        getName
+        getName,
+        getMark,
     };
 };
 
