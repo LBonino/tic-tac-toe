@@ -427,63 +427,35 @@ const gameActions = (() => {
     }
 })();
 
-const gameEvents = (() => {
-    const gameModeSelection = (() => {
-        const addListeners = () => {
-            const gameModebuttons = Object.values(displayController.menu.getGameModeButtons());
-            gameModebuttons.forEach(button => {
-                button.addEventListener("click", gameActions.setGameMode);
-                button.addEventListener("click", gameController.startPlayerInitialization);
-            });
-        }
-
-        return {addListeners};
-    })();
-
-    const playerInitialization = (() => {
-        const addListeners = () => {
-            const playerNameForm = displayController.menu.getPlayerNameForm();
-            playerNameForm.addEventListener("submit", gameActions.handlePlayerNameFormSubmission);
-            playerNameForm.addEventListener("submit", gameController.startGame);
-        };
-
-        return {addListeners};
-    })();
-
-    const gameStart = (() => {
-        const addListeners = () => {
-            const gameboardCells = Array.from(displayController.gameboard.getElement().children);
-            gameboardCells.forEach(cell => {
-                cell.addEventListener("click", gameActions.playTurn);
-                cell.addEventListener("click", gameActions.updateGameState);
-            });
-        };
-
-        return {addListeners};
-    })();
-
-    return {
-        gameModeSelection,
-        playerInitialization,
-        gameStart
-    }; 
-})();
-
 const gameController = (() => {
     // Each of these methods correspond to a different phase of the game
     const startGameModeSelection = () => {
         displayController.menu.showGameModeSelection();
-        gameEvents.gameModeSelection.addListeners();
+
+        const gameModebuttons = Object.values(displayController.menu.getGameModeButtons());
+        gameModebuttons.forEach(button => {
+            button.addEventListener("click", gameActions.setGameMode);
+            button.addEventListener("click", startPlayerInitialization);
+        });
     }
 
     const startPlayerInitialization = () => {
         displayController.menu.showPlayerNameForm();
-        gameEvents.playerInitialization.addListeners();
+
+        const playerNameForm = displayController.menu.getPlayerNameForm();
+        playerNameForm.addEventListener("submit", gameActions.handlePlayerNameFormSubmission);
+        playerNameForm.addEventListener("submit", startGame);
     };
 
     const startGame = () => {
         displayController.menu.toggle("off");
-        gameEvents.gameStart.addListeners();
+        
+        const gameboardCells = Array.from(displayController.gameboard.getElement().children);
+        gameboardCells.forEach(cell => {
+            cell.addEventListener("click", gameActions.playTurn);
+            cell.addEventListener("click", gameActions.updateGameState);
+        });
+
         gameState.setCurrentTurnPlayer(1);
     };
 
