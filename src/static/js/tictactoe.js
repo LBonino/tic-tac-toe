@@ -8,10 +8,21 @@ const gameboard = (() => {
         _squareGrid[positionY][positionX] = mark;
     };
 
+    const areAllSpacesTaken = () => {
+        for (const row of _squareGrid) {
+            for (const space of row) {
+                if (space == "") return false;
+            }
+        }
+
+        return true;
+    }
+
     return {
         reset,
         getState,
-        placePiece
+        placePiece,
+        areAllSpacesTaken,
     };
 })();
 
