@@ -155,6 +155,7 @@ const displayController = (() => {
             multiPlayer: document.createElement("button")
         };
         const _playerNameForm = document.createElement("form");
+        const _playAgainButton = document.createElement("button");
 
         const toggle = (state) => {
             if (state === "off") {
@@ -249,15 +250,34 @@ const displayController = (() => {
             }
         };
 
+        const showGameResult = () => {
+            _clearMenu();
+            _title.textContent = "Game Over";
+
+            const gameResult = document.createElement("h3");
+            gameResult.textContent = (gameState.isATie()) ? "It's a tie!" :
+                                     `${gameState.getWinnerPlayer().getName()} wins!`;
+
+            const playAgain = _playAgainButton;
+            playAgain.textContent = "Play again";
+
+            _content.className = "game-result";
+            _content.appendChild(gameResult);
+            _content.appendChild(playAgain);
+        }
+
         const getGameModeButtons = () => _gameModeButtons;
         const getPlayerNameForm = () => _playerNameForm;
+        const getPlayAgainButton = () => _playAgainButton;
 
         return {
             toggle,
             showGameModeSelection,
             showPlayerNameForm,
+            showGameResult,
             getGameModeButtons,
             getPlayerNameForm,
+            getPlayAgainButton,
         };
     })();
 
