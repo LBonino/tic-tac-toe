@@ -183,7 +183,7 @@ const displayController = (() => {
             multiPlayerButton.textContent = "2 players";
             multiPlayerButton.dataset.playerNumber = 2;
 
-            _content.classList.add("gamemode-selection")
+            _content.className = "gamemode-selection";
             _content.appendChild(singlePlayerButton);
             _content.appendChild(multiPlayerButton);
         }
@@ -218,7 +218,7 @@ const displayController = (() => {
             const form = _playerNameForm;
             form.appendChild(unorderedList);
 
-            _content.classList.add("player-name-form");
+            _content.className = "player-name-form";
             _content.appendChild(form);
         }
 
