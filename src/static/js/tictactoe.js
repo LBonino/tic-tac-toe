@@ -42,6 +42,20 @@ const gameState = (() => {
         }
     };
 
+    const getPlayerByMark = (playerMark) => { 
+        playerMark = playerMark.toLowerCase();
+        if (!["x", "o"].includes(playerMark)) {
+            return null;
+        }
+
+        let player1 = getPlayerByNumber(1);
+        if (player1.getMark() === playerMark) {
+            return player1;
+        }
+        
+       return getPlayerByNumber(2);
+    }
+
     const setPlayers = (namePlayer1, namePlayer2) => {
         if (!namePlayer1) {
             throw Error("At least one player name should be provided");
@@ -74,6 +88,7 @@ const gameState = (() => {
         getHumanPlayerNumber,
         setHumanPlayerNumber,
         getPlayerByNumber,
+        getPlayerByMark,
         setPlayers,
         getCurrentTurnPlayer,
         setCurrentTurnPlayer,
