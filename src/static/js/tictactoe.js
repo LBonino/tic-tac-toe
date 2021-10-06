@@ -343,6 +343,7 @@ const gameEvents = (() => {
             const gameboardCells = Array.from(displayController.gameboard.getElement().children);
             gameboardCells.forEach(cell => {
                 cell.addEventListener("click", _playTurn);
+                cell.addEventListener("click", _updateGameState);
             });
         };
 
@@ -359,6 +360,79 @@ const gameEvents = (() => {
                 gameState.setCurrentTurnPlayer(1);
             }
         };
+
+        /*
+        After a turn is played, the game may end, either in a tie or with a player winning.
+        This function updates the variables that determine the game outcome.
+        It's meant to be called after every turn.
+        */
+        const _updateGameState = () => {
+            const gameboardState = gameboard.getState();
+            _updateWinner(gameboardState);
+            _updateTie(gameboardState);
+            if (gameState.getWinnerPlayer() || gameState.isATie()) {
+                return gameState.endGame();
+            }
+        };
+
+        const _updateWinner = (gameboardState) => {
+            let winnerMark;
+
+            // look for winning combinations in all rows and columns
+            for (let i = 0; i < 3; i++) {
+                if (_isWinnerRow(i, gameboardState)) {
+                    winnerMark = gameboardState[i][0];
+                    return gameState.setWinnerPlayer(winnerMark);
+                }
+
+                if (_isWinnerColumn(i, gameboardState)) {
+                    winnerMark = gameboardState[0][i];
+                    return gameState.setWinnerPlayer(winnerMark);
+                }
+            }
+
+            // loook for winning combinations in both diagonals
+            if (_isWinnerDiagonals(gameboardState)) {
+                winnerMark = gameboardState[1][1];
+                return gameState.setWinnerPlayer(winnerMark);
+            }
+        };
+
+        const _isWinnerRow = (rowIndex, gameboardState) => {
+            if (gameboardState[rowIndex][0] === gameboardState[rowIndex][1] &&
+                gameboardState[rowIndex][1] === gameboardState[rowIndex][2]) {
+                return true;
+            }
+
+            return false;
+        };
+
+        const _isWinnerColumn = (columnIndex, gameboardState) => {
+            if (gameboardState[0][columnIndex] === gameboardState[1][columnIndex] &&
+                gameboardState[1][columnIndex] === gameboardState[2][columnIndex]) {
+                return true;
+            }
+
+            return false;
+        }
+
+        const _isWinnerDiagonals = (gameboardState) => {
+            // ((main diagonal) OR (secondary diagonal))
+            if ((gameboardState[0][0] === gameboardState[1][1] && gameboardState[1][1] === gameboardState[2][2]) ||
+                (gameboardState[2][0] === gameboardState[1][1] && gameboardState[1][1] === gameboardState[0][2])) {
+                return true;
+            }
+
+            return false;
+        }
+
+        /* The winner state must be updated before calling this function or else
+        it won't work properly, since it first checks whether there is already a winner*/
+        const _updateTie = () => {
+            if (gameboard.areAllSpacesTaken() && !gameState.getWinnerPlayer()) {
+                gameState.setTie();
+            }
+        }
 
         return {addListeners};
     })();
