@@ -21,6 +21,9 @@ const gameState = (() => {
     let _player1 = null;
     let _player2 = null;
     let _currentTurnPlayer = null;
+    let _winnerPlayer = null;
+    let _isGameOver = false;
+    let _isATie = false;
 
     const getHumanPlayerNumber = () => _humanPlayerNumber;
     const setHumanPlayerNumber = (humanPlayerNumber) => {
@@ -84,6 +87,16 @@ const gameState = (() => {
         _currentTurnPlayer = getPlayerByNumber(playerNumber);
     };
 
+    const getWinnerPlayer = () => _winnerPlayer;
+    const setWinnerPlayer = (playerMark) => {
+        _winnerPlayer = getPlayerByMark(playerMark);
+    };
+
+    const endGame = () => {_isGameOver = true};
+    const setTie = () => {_isATie = true};
+    const isGameOver = () => _isGameOver;
+    const isATie = () => _isATie;
+
     return {
         getHumanPlayerNumber,
         setHumanPlayerNumber,
@@ -92,6 +105,12 @@ const gameState = (() => {
         setPlayers,
         getCurrentTurnPlayer,
         setCurrentTurnPlayer,
+        getWinnerPlayer,
+        setWinnerPlayer,
+        endGame,
+        setTie,
+        isGameOver,
+        isATie,
     }
 })();
 
