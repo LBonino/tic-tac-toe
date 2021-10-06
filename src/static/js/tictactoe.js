@@ -31,7 +31,7 @@ const gameState = (() => {
         _humanPlayerNumber = humanPlayerNumber;
     };
 
-    const getPlayer = (playerNumber) => {
+    const getPlayerByNumber = (playerNumber) => {
         switch (playerNumber) {
             case 1:
                 return _player1;
@@ -67,13 +67,13 @@ const gameState = (() => {
 
     const getCurrentTurnPlayer = () => _currentTurnPlayer;
     const setCurrentTurnPlayer = (playerNumber) => {
-        _currentTurnPlayer = getPlayer(playerNumber);
+        _currentTurnPlayer = getPlayerByNumber(playerNumber);
     };
 
     return {
         getHumanPlayerNumber,
         setHumanPlayerNumber,
-        getPlayer,
+        getPlayerByNumber,
         setPlayers,
         getCurrentTurnPlayer,
         setCurrentTurnPlayer,
@@ -313,8 +313,8 @@ const gameEvents = (() => {
         };
 
         const _playTurn = function(e) {
-            const player1 = gameState.getPlayer(1);
-            const player2 = gameState.getPlayer(2);
+            const player1 = gameState.getPlayerByNumber(1);
+            const player2 = gameState.getPlayerByNumber(2);
 
             if (gameState.getCurrentTurnPlayer() === player1) {
                 player1.makeMove(this.dataset.positionx, this.dataset.positiony);
