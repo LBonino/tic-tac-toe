@@ -353,14 +353,23 @@ const gameActions = (() => {
     */
     const updateGameState = () => {
         const gameboardState = gameboard.getState();
-        _updateWinner(gameboardState);
-        _updateTie(gameboardState);
+        updateGameStateHelpers.updateWinner(gameboardState);
+        updateGameStateHelpers.updateTie();
         if (gameState.getWinnerPlayer() || gameState.isATie()) {
             return gameState.endGame();
         }
     };
 
-    const _updateWinner = (gameboardState) => {
+    return {
+        setGameMode,
+        handlePlayerNameFormSubmission,
+        playTurn,
+        updateGameState,
+    }
+})();
+
+const updateGameStateHelpers = (() => {
+    const updateWinner = (gameboardState) => {
         let winnerMark;
 
         // look for winning combinations in all rows and columns
@@ -411,19 +420,17 @@ const gameActions = (() => {
         return false;
     }
 
-    /* The winner state must be updated before calling this function or else
-    it won't work properly, since it first checks whether there is already a winner*/
-    const _updateTie = () => {
+    /* The winner state must be updated before calling this function or else it won't
+    work properly, since it needs to check first whether there is already a winner */
+    const updateTie = () => {
         if (gameboard.areAllSpacesTaken() && !gameState.getWinnerPlayer()) {
             gameState.setTie();
         }
     }
 
     return {
-        setGameMode,
-        handlePlayerNameFormSubmission,
-        playTurn,
-        updateGameState,
+        updateWinner,
+        updateTie
     }
 })();
 
@@ -449,7 +456,7 @@ const gameController = (() => {
 
     const startGame = () => {
         displayController.menu.toggle("off");
-        
+
         const gameboardCells = Array.from(displayController.gameboard.getElement().children);
         gameboardCells.forEach(cell => {
             cell.addEventListener("click", gameActions.playTurn);
