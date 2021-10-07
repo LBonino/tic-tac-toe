@@ -166,12 +166,18 @@ const displayController = (() => {
         const _menu = document.querySelector(".menu");
         const _title = _menu.firstElementChild;
         const _content = _menu.lastElementChild;
-        const _gameModeButtons = {
-            singlePlayer: document.createElement("button"),
-            multiPlayer: document.createElement("button")
+
+        // Interactive elements 
+        let _gameModeButtons = {};
+        let _playerNameForm;
+        let _playAgainButton;
+
+        const initializeInteractiveElements = () => {
+            _gameModeButtons.singlePlayer = document.createElement("button");
+            _gameModeButtons.multiPlayer = document.createElement("button");
+            _playerNameForm = document.createElement("form");
+            _playAgainButton = document.createElement("button");
         };
-        const _playerNameForm = document.createElement("form");
-        const _playAgainButton = document.createElement("button");
 
         const toggle = (state) => {
             if (state === "off") {
@@ -287,6 +293,7 @@ const displayController = (() => {
         const getPlayAgainButton = () => _playAgainButton;
 
         return {
+            initializeInteractiveElements,
             toggle,
             showGameModeSelection,
             showPlayerNameForm,
