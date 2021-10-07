@@ -28,13 +28,28 @@ const gameboard = (() => {
 
 const gameState = (() => {
     // Tells if the user will play against another human or a bot
-    let _humanPlayerNumber = 0;
-    let _player1 = null;
-    let _player2 = null;
-    let _currentTurnPlayer = null;
-    let _winnerPlayer = null;
-    let _isGameOver = false;
-    let _isATie = false;
+    let _humanPlayerNumber;
+    let _player1;
+    let _player2;
+    let _currentTurnPlayer;
+    let _winnerPlayer;
+    let _isGameOver;
+    let _isATie;
+
+    /*
+    Must be called before using any public method in this module.
+    This method will also be used when restarting the game to revert all values
+    to their initial state.
+    */
+    const initialize = () => {
+        _humanPlayerNumber = 0;
+        _player1 = null;
+        _player2 = null;
+        _currentTurnPlayer = null;
+        _winnerPlayer = null;
+        _isGameOver = false;
+        _isATie = false;
+    }
 
     const getHumanPlayerNumber = () => _humanPlayerNumber;
     const setHumanPlayerNumber = (humanPlayerNumber) => {
@@ -109,6 +124,7 @@ const gameState = (() => {
     const isATie = () => _isATie;
 
     return {
+        initialize,
         getHumanPlayerNumber,
         setHumanPlayerNumber,
         getPlayerByNumber,
