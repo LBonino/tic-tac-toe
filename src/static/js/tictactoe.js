@@ -514,9 +514,24 @@ const gameController = (() => {
         gameboardCells.forEach(cell => {
             cell.addEventListener("click", gameActions.playTurn);
             cell.addEventListener("click", gameActions.updateGameState);
+            cell.addEventListener("click", _announceResultOnGameOver)
         });
 
         gameState.setCurrentTurnPlayer(1);
+    };
+
+    const startGameResultAnnouncement = () => {
+        displayController.menu.toggle("on");
+        displayController.menu.showGameResult();
+
+        const playAgainButton = displayController.menu.getPlayAgainButton();
+        playAgainButton.addEventListener("click", initializeGame);
+    };
+
+    const _announceResultOnGameOver = () => {
+        if (gameState.isGameOver()) {
+            return startGameResultAnnouncement()
+        }
     };
 
     return {
@@ -524,5 +539,6 @@ const gameController = (() => {
         startGameModeSelection,
         startPlayerInitialization,
         startRound,
+        startGameResultAnnouncement,
     };
 })();
