@@ -478,6 +478,16 @@ const updateGameStateHelpers = (() => {
 })();
 
 const gameController = (() => {
+    // Make sure everything is in its default state before starting
+    // This method is also used to restart the game
+    const initializeGame = () => {
+        gameState.initialize();
+        gameboard.reset();
+        displayController.gameboard.clear();
+        displayController.menu.initializeInteractiveElements();
+        startGameModeSelection();
+    }
+
     // Each of these methods correspond to a different phase of the game
     const startGameModeSelection = () => {
         displayController.menu.showGameModeSelection();
@@ -510,6 +520,7 @@ const gameController = (() => {
     };
 
     return {
+        initializeGame,
         startGameModeSelection,
         startPlayerInitialization,
         startGame
