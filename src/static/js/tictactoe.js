@@ -504,10 +504,10 @@ const gameController = (() => {
 
         const playerNameForm = displayController.menu.getPlayerNameForm();
         playerNameForm.addEventListener("submit", gameActions.handlePlayerNameFormSubmission);
-        playerNameForm.addEventListener("submit", startGame);
+        playerNameForm.addEventListener("submit", startRound);
     };
 
-    const startGame = () => {
+    const startRound = () => {
         displayController.menu.toggle("off");
 
         const gameboardCells = Array.from(displayController.gameboard.getElement().children);
@@ -523,6 +523,6 @@ const gameController = (() => {
         initializeGame,
         startGameModeSelection,
         startPlayerInitialization,
-        startGame
+        startRound,
     };
 })();
