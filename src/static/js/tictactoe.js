@@ -375,7 +375,22 @@ const gameActions = (() => {
         gameState.setPlayers(namePlayer1, namePlayer2);
     };
 
-    const playTurn = function() {
+    /* 
+    To be called when a square in the gameboard is clicked.
+    Since the bot can't click a square, the methods inside get called twice if needed:
+    First to play the human's turn, then the bot's turn.
+    */
+    const handleTurn = function() {
+        _playTurn.call(this);
+        _updateGameState();
+
+        if (gameState.getHumanPlayerNumber() === 1) {
+            _playTurn.call(this);
+            _updateGameState();
+        }
+    }
+
+    const _playTurn = function() {
         const player1 = gameState.getPlayerByNumber(1);
         const player2 = gameState.getPlayerByNumber(2);
 
@@ -394,7 +409,7 @@ const gameActions = (() => {
     This function updates the variables that determine the game outcome.
     It's meant to be called after every turn.
     */
-    const updateGameState = () => {
+    const _updateGameState = () => {
         const gameboardState = gameboard.getState();
         updateGameStateHelpers.updateWinner(gameboardState);
         updateGameStateHelpers.updateTie();
@@ -406,8 +421,7 @@ const gameActions = (() => {
     return {
         setGameMode,
         handlePlayerNameFormSubmission,
-        playTurn,
-        updateGameState,
+        handleTurn,
     }
 })();
 
@@ -512,8 +526,7 @@ const gameController = (() => {
 
         const gameboardCells = Array.from(displayController.gameboard.getElement().children);
         gameboardCells.forEach(cell => {
-            cell.addEventListener("click", gameActions.playTurn);
-            cell.addEventListener("click", gameActions.updateGameState);
+            cell.addEventListener("click", gameActions.handleTurn);
             cell.addEventListener("click", _announceResultOnGameOver)
         });
 
