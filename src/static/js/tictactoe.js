@@ -412,7 +412,11 @@ const gameActions = (() => {
             gameState.setCurrentTurnPlayer(2);
         }
         else {
-            player2.makeMove(this.dataset.positionx, this.dataset.positiony);
+            const moveCoords = (gameState.getHumanPlayerNumber() === 1) ? 
+            bot.generateMoveCoords() :
+            {x: this.dataset.positionx, y: this.dataset.positiony};
+
+            player2.makeMove(moveCoords.x, moveCoords.y);
             gameState.setCurrentTurnPlayer(1);
         }
     };
@@ -566,5 +570,22 @@ const gameController = (() => {
         startPlayerInitialization,
         startRound,
         startGameResultAnnouncement,
+    };
+})();
+
+const bot = (() => {
+    /*
+    This A.I. aims to generate valid, random coordinates for a move.
+    After achieving this, I'll try to make the A.I. smarter.
+    */
+    const generateMoveCoords = () => {
+        const freeMoves = gameboard.getFreeMoves();
+        const randomIndex = Math.floor(Math.random() * freeMoves.length);
+        
+        return freeMoves[randomIndex];
+    }
+
+    return {
+        generateMoveCoords,
     };
 })();
