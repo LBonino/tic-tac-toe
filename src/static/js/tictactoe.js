@@ -18,11 +18,24 @@ const gameboard = (() => {
         return true;
     }
 
+    const getFreeMoves = () => {
+        let freeMoves = [];
+
+        for (let i = 0; i < _squareGrid.length; i++) {
+            for (let j = 0; j < _squareGrid.length; j++) {
+                if (_squareGrid[i][j] == "") freeMoves.push({x: j, y: i});
+            }
+        }
+
+        return freeMoves;
+    };
+
     return {
         reset,
         getState,
         placePiece,
         areAllSpacesTaken,
+        getFreeMoves,
     };
 })();
 
