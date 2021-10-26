@@ -8,6 +8,10 @@ const gameboard = (() => {
         _squareGrid[positionY][positionX] = mark;
     };
 
+    const removePiece = (positionX, positionY) => {
+        _squareGrid[positionY][positionX] = "";
+    };
+
     const areAllSpacesTaken = () => {
         for (const row of _squareGrid) {
             for (const space of row) {
@@ -34,6 +38,7 @@ const gameboard = (() => {
         reset,
         getState,
         placePiece,
+        removePiece,
         areAllSpacesTaken,
         getFreeMoves,
     };
