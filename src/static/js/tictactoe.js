@@ -400,11 +400,11 @@ const gameActions = (() => {
     */
     const handleTurn = function() {
         _playTurn.call(this);
-        _updateGameState();
+        updateGameState();
 
-        if (gameState.getHumanPlayerNumber() === 1) {
+        if (gameState.getHumanPlayerNumber() === 1 && !gameState.isGameOver()) { 
             _playTurn.call(this);
-            _updateGameState();
+            updateGameState();
         }
     }
 
