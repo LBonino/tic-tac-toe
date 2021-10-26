@@ -351,7 +351,6 @@ const Player = (name, mark, isHuman) => {
         }
 
         gameboard.placePiece(_mark, positionX, positionY);
-        displayController.gameboard.drawMark(_mark, positionX, positionY);
     }
 
     const _isValidMove = (positionX, positionY) => {
@@ -411,17 +410,22 @@ const gameActions = (() => {
     const _playTurn = function() {
         const player1 = gameState.getPlayerByNumber(1);
         const player2 = gameState.getPlayerByNumber(2);
+        const currentTurnPlayer = gameState.getCurrentTurnPlayer();
+        const moveXCoord = this.dataset.positionx;
+        const moveYCoord = this.dataset.positiony;
 
-        if (gameState.getCurrentTurnPlayer() === player1) {
-            player1.makeMove(this.dataset.positionx, this.dataset.positiony);
+        if (currentTurnPlayer === player1) {
+            player1.makeMove(moveXCoord, moveYCoord);
+            displayController.gameboard.drawMark(player1.getMark(), moveXCoord, moveYCoord);
             gameState.setCurrentTurnPlayer(2);
         }
         else {
             const moveCoords = (gameState.getHumanPlayerNumber() === 1) ? 
             bot.generateMoveCoords() :
-            {x: this.dataset.positionx, y: this.dataset.positiony};
+            {x: moveXCoord, y: moveYCoord};
 
             player2.makeMove(moveCoords.x, moveCoords.y);
+            displayController.gameboard.drawMark(player2.getMark(), moveCoords.x, moveCoords.y);
             gameState.setCurrentTurnPlayer(1);
         }
     };
