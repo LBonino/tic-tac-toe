@@ -590,18 +590,76 @@ const gameController = (() => {
 })();
 
 const bot = (() => {
-    /*
-    This A.I. aims to generate valid, random coordinates for a move.
-    After achieving this, I'll try to make the A.I. smarter.
-    */
-    const generateMoveCoords = () => {
+    // Use the minimax algorithm to assign a score for each possible move
+    const generateMoveCoords = (maximizingPlayer) => {
         const freeMoves = gameboard.getFreeMoves();
-        const randomIndex = Math.floor(Math.random() * freeMoves.length);
         
-        return freeMoves[randomIndex];
+        for (const move of freeMoves) {
+            move.score = _evaluateMove(move, maximizingPlayer, 0);
+        }
+    
+        const highestScoreMove = _getMoveByScore(freeMoves);
+        
+        return {
+            x: highestScoreMove.x,
+            y: highestScoreMove.y
+        };
+    };
+    
+    // Determine how 'smart' a movement is giving it a score based on the minimax algorithm
+    const _evaluateMove = (move, maximizingPlayer, depth) => {
+        _simulateMove(move);
+        let moveScore = 0;
+    
+        // Base case: the simulated game is over, return score based on game result
+        if (gameState.isGameOver()) {
+            if (gameState.isATie()) moveScore = 0;
+            else if (gameState.getWinnerPlayer() === maximizingPlayer) moveScore = 10 - depth;
+            else moveScore = depth - 10;
+    
+            _undoSimulatedMove(move);
+            return moveScore;
+        }
+    
+        // Recursive case: game is not over yet, evaluate every possible next move
+        const freeMoves = gameboard.getFreeMoves();
+        for (const nextMove of freeMoves) {
+            nextMove.score = _evaluateMove(nextMove, maximizingPlayer, depth + 1);
+        }
+    
+        const currentTurnPlayer = gameState.getCurrentTurnPlayer();
+        if (currentTurnPlayer === maximizingPlayer) moveScore = _getMoveByScore(freeMoves).score;
+        else moveScore = _getMoveByScore(freeMoves, true).score;
+    
+        _undoSimulatedMove(move);
+        return moveScore;
+    };
+
+    const _simulateMove = (move) => {
+        const currentTurnPlayer = gameState.getCurrentTurnPlayer();
+        currentTurnPlayer.makeMove(move.x, move.y);
+        gameActions.updateGameState();
+        if (currentTurnPlayer.getMark() === 'x') gameState.setCurrentTurnPlayer(2);
+        else gameState.setCurrentTurnPlayer(1); // TODO: Refactor this
+    };
+        
+    const _undoSimulatedMove = (move) => {
+        const currentTurnPlayer = gameState.getCurrentTurnPlayer();
+        gameboard.removePiece(move.x, move.y);
+        gameActions.updateGameState();
+        if (currentTurnPlayer.getMark() === 'x') gameState.setCurrentTurnPlayer(2);
+        else gameState.setCurrentTurnPlayer(1); // TODO: Refactor this
     }
+    
+    const _getMoveByScore = (moves, getLowestScoreMove) => {
+        return moves.reduce((move1, move2) => {
+            if (getLowestScoreMove) return (move1.score < move2.score) ? move1 : move2;
+            else return (move1.score > move2.score) ? move1 : move2;
+        });
+    };
 
     return {
         generateMoveCoords,
     };
+
 })();
