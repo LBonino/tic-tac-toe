@@ -421,7 +421,7 @@ const gameActions = (() => {
         }
         else {
             const moveCoords = (gameState.getHumanPlayerNumber() === 1) ? 
-            bot.generateMoveCoords() :
+            bot.generateMoveCoords(currentTurnPlayer) :
             {x: moveXCoord, y: moveYCoord};
 
             player2.makeMove(moveCoords.x, moveCoords.y);
