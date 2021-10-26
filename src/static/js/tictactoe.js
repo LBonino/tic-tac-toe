@@ -381,6 +381,12 @@ const gameActions = (() => {
         gameState.setHumanPlayerNumber(Number(e.target.dataset.playerNumber));
     }
 
+    const switchTurns = () => {
+        const currentTurnPlayer = gameState.getCurrentTurnPlayer();
+        if (currentTurnPlayer.getMark() === 'x') gameState.setCurrentTurnPlayer(2);
+        else gameState.setCurrentTurnPlayer(1);
+    };
+
     const handlePlayerNameFormSubmission = (e) => {
         // prevent standard form behavior like making a new request, creating a query string, etc.
         e.preventDefault();
@@ -417,7 +423,6 @@ const gameActions = (() => {
         if (currentTurnPlayer === player1) {
             player1.makeMove(moveXCoord, moveYCoord);
             displayController.gameboard.drawMark(player1.getMark(), moveXCoord, moveYCoord);
-            gameState.setCurrentTurnPlayer(2);
         }
         else {
             const moveCoords = (gameState.getHumanPlayerNumber() === 1) ? 
@@ -426,8 +431,9 @@ const gameActions = (() => {
 
             player2.makeMove(moveCoords.x, moveCoords.y);
             displayController.gameboard.drawMark(player2.getMark(), moveCoords.x, moveCoords.y);
-            gameState.setCurrentTurnPlayer(1);
         }
+
+        switchTurns();
     };
 
     /*
@@ -448,6 +454,7 @@ const gameActions = (() => {
 
     return {
         setGameMode,
+        switchTurns,
         handlePlayerNameFormSubmission,
         handleTurn,
         updateGameState,
@@ -589,6 +596,8 @@ const gameController = (() => {
     };
 })();
 
+gameController.initializeGame();
+
 const bot = (() => {
     // Use the minimax algorithm to assign a score for each possible move
     const generateMoveCoords = (maximizingPlayer) => {
@@ -639,16 +648,14 @@ const bot = (() => {
         const currentTurnPlayer = gameState.getCurrentTurnPlayer();
         currentTurnPlayer.makeMove(move.x, move.y);
         gameActions.updateGameState();
-        if (currentTurnPlayer.getMark() === 'x') gameState.setCurrentTurnPlayer(2);
-        else gameState.setCurrentTurnPlayer(1); // TODO: Refactor this
+        gameActions.switchTurns();
     };
         
     const _undoSimulatedMove = (move) => {
         const currentTurnPlayer = gameState.getCurrentTurnPlayer();
         gameboard.removePiece(move.x, move.y);
         gameActions.updateGameState();
-        if (currentTurnPlayer.getMark() === 'x') gameState.setCurrentTurnPlayer(2);
-        else gameState.setCurrentTurnPlayer(1); // TODO: Refactor this
+        gameActions.switchTurns();
     }
     
     const _getMoveByScore = (moves, getLowestScoreMove) => {
