@@ -133,11 +133,11 @@ const gameState = (() => {
 
     const getWinnerPlayer = () => _winnerPlayer;
     const setWinnerPlayer = (playerMark) => {
-        _winnerPlayer = getPlayerByMark(playerMark);
+        _winnerPlayer = (playerMark) ? getPlayerByMark(playerMark) : null;
     };
 
-    const endGame = () => {_isGameOver = true};
-    const setTie = () => {_isATie = true};
+    const setGameOver = (gameIsOver) => {_isGameOver = gameIsOver};
+    const setTie = (isATie) => {_isATie = isATie};
     const isGameOver = () => _isGameOver;
     const isATie = () => _isATie;
 
@@ -152,7 +152,7 @@ const gameState = (() => {
         setCurrentTurnPlayer,
         getWinnerPlayer,
         setWinnerPlayer,
-        endGame,
+        setGameOver,
         setTie,
         isGameOver,
         isATie,
@@ -427,23 +427,26 @@ const gameActions = (() => {
     };
 
     /*
-    After a turn is played, the game may end, either in a tie or with a player winning.
-    This function updates the variables that determine the game outcome.
-    It's meant to be called after every turn.
+    Updates the gameState variables that determine the game outcome according
+    to the gameboard state at the moment.
+    It's meant to be called every time a piece is either placed or removed.
     */
-    const _updateGameState = () => {
+    const updateGameState = () => {
         const gameboardState = gameboard.getState();
         updateGameStateHelpers.updateWinner(gameboardState);
         updateGameStateHelpers.updateTie();
         if (gameState.getWinnerPlayer() || gameState.isATie()) {
-            return gameState.endGame();
+            return gameState.setGameOver(true);
         }
+
+        gameState.setGameOver(false);
     };
 
     return {
         setGameMode,
         handlePlayerNameFormSubmission,
         handleTurn,
+        updateGameState,
     }
 })();
 
@@ -464,11 +467,13 @@ const updateGameStateHelpers = (() => {
             }
         }
 
-        // loook for winning combinations in both diagonals
+        // look for winning combinations in both diagonals
         if (_isWinnerDiagonals(gameboardState)) {
             winnerMark = gameboardState[1][1];
             return gameState.setWinnerPlayer(winnerMark);
         }
+
+        gameState.setWinnerPlayer(null);
     };
 
     const _isWinnerRow = (rowIndex, gameboardState) => {
@@ -503,8 +508,10 @@ const updateGameStateHelpers = (() => {
     work properly, since it needs to check first whether there is already a winner */
     const updateTie = () => {
         if (gameboard.areAllSpacesTaken() && !gameState.getWinnerPlayer()) {
-            gameState.setTie();
+            return gameState.setTie(true);
         }
+
+        gameState.setTie(false);
     }
 
     return {
