@@ -83,9 +83,7 @@ const gameState = (() => {
         playerMark = playerMark.toLowerCase();
         if (!gameboard.isMark(playerMark)) return null;
 
-        let player1 = getPlayerByNumber(1); // Refactor this
-        if (player1.getMark() === playerMark) return player1;
-        else return getPlayerByNumber(2);
+        return (_player1.getMark() === playerMark) ? _player1 : _player2;
     }
 
     const setPlayers = (namePlayer1, namePlayer2) => {
