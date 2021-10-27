@@ -435,7 +435,7 @@ const updateGameStateHelpers = (() => {
         }
 
         // look for winning combinations in both diagonals
-        if (_isWinnerDiagonals(gameboardState)) {
+        if (_isWinnerDiagonal(gameboardState)) {
             winnerMark = gameboardState[1][1];
             return gameState.setWinnerPlayer(winnerMark);
         }
@@ -444,32 +444,33 @@ const updateGameStateHelpers = (() => {
     };
 
     const _isWinnerRow = (rowIndex, gameboardState) => {
-        if (gameboardState[rowIndex][0] === gameboardState[rowIndex][1] &&
-            gameboardState[rowIndex][1] === gameboardState[rowIndex][2]) {
-            return true;
-        }
+        const firstRowValueIsMark = gameboard.isMark(gameboardState[rowIndex][0]);
+        const rowValuesAreEqual = gameboardState[rowIndex][0] === gameboardState[rowIndex][1] &&
+                                    gameboardState[rowIndex][1] === gameboardState[rowIndex][2];
 
-        return false;
+        return (firstRowValueIsMark && rowValuesAreEqual);
     };
 
     const _isWinnerColumn = (columnIndex, gameboardState) => {
-        if (gameboardState[0][columnIndex] === gameboardState[1][columnIndex] &&
-            gameboardState[1][columnIndex] === gameboardState[2][columnIndex]) {
-            return true;
-        }
+        const firstColumnValueIsMark = gameboard.isMark(gameboardState[0][columnIndex]);
+        const columnValuesAreEqual = gameboardState[0][columnIndex] === gameboardState[1][columnIndex] &&
+                                     gameboardState[1][columnIndex] === gameboardState[2][columnIndex];
 
-        return false;
-    }
+        return (firstColumnValueIsMark && columnValuesAreEqual);
+    };
 
-    const _isWinnerDiagonals = (gameboardState) => {
-        // ((main diagonal) OR (secondary diagonal))
-        if ((gameboardState[0][0] === gameboardState[1][1] && gameboardState[1][1] === gameboardState[2][2]) ||
-            (gameboardState[2][0] === gameboardState[1][1] && gameboardState[1][1] === gameboardState[0][2])) {
-            return true;
-        }
+    const _isWinnerDiagonal = (gameboardState) => {
+        const firstMainDiagonalValue = gameboardState[0][0];
+        const mainDiagonalValuesAreEqual = gameboardState[0][0] === gameboardState[1][1] &&
+                                           gameboardState[1][1] === gameboardState[2][2];
 
-        return false;
-    }
+        const firstSecondaryDiagonalValue = gameboardState[2][0];
+        const SecondaryDiagonalValuesAreEqual = gameboardState[2][0] === gameboardState[1][1] &&
+                                                gameboardState[1][1] === gameboardState[0][2];
+
+        return (gameboard.isMark(firstMainDiagonalValue) && mainDiagonalValuesAreEqual ||
+                gameboard.isMark(firstSecondaryDiagonalValue) && SecondaryDiagonalValuesAreEqual);
+    };
 
     /* The winner state must be updated before calling this function or else it won't
     work properly, since it needs to check first whether there is already a winner */
