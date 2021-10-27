@@ -24,12 +24,18 @@ const gameboard = (() => {
         return freeMoves;
     };
 
+    const isMark = (value) => {
+        const validMarks = ["x", "o"];
+        return (validMarks.includes(value));
+    };
+
     return {
         reset,
         getState,
         placePiece,
         removePiece,
         getFreeMoves,
+        isMark,
     };
 })();
 
@@ -75,7 +81,7 @@ const gameState = (() => {
 
     const getPlayerByMark = (playerMark) => { 
         playerMark = playerMark.toLowerCase();
-        if (!["x", "o"].includes(playerMark)) return null;
+        if (!gameboard.isMark(playerMark)) return null;
 
         let player1 = getPlayerByNumber(1); // Refactor this
         if (player1.getMark() === playerMark) return player1;
@@ -294,13 +300,11 @@ const displayController = (() => {
 })();
 
 const Player = (name, mark, isHuman) => {
-    const _validMarks = ["x", "o"];
-    if (!_validMarks.includes(mark.toLowerCase())) throw Error("Invalid mark: mark must be 'x' or 'y'");
+    mark = mark.toLowerCase();
+
+    if (!gameboard.isMark(mark.toLowerCase())) throw Error("Invalid mark: mark must be 'x' or 'y'");
     if (name.length < 2) throw Error("Invalid name: it must be at least 2 characters long");
     if (typeof isHuman !== "boolean") throw Error("Invalid argument: 'isHuman' must be a boolean");
-
-    const _name = name;
-    const _mark = mark.toLowerCase()
 
     const makeMove = (positionX, positionY) => {
         if (!_isValidMove(positionX, positionY)) throw Error("Invalid move");
@@ -315,8 +319,8 @@ const Player = (name, mark, isHuman) => {
         );
     };
 
-    const getName = () => _name;
-    const getMark = () => _mark;
+    const getName = () => name;
+    const getMark = () => mark;
 
     return {
         makeMove,
