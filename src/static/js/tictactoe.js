@@ -308,7 +308,7 @@ const Player = (name, mark, isHuman) => {
 
     const makeMove = (positionX, positionY) => {
         if (!_isValidMove(positionX, positionY)) throw Error("Invalid move");
-        gameboard.placePiece(_mark, positionX, positionY);
+        gameboard.placePiece(mark, positionX, positionY);
     }
 
     const _isValidMove = (positionX, positionY) => {
