@@ -68,34 +68,22 @@ const gameState = (() => {
     };
 
     const getPlayerByNumber = (playerNumber) => {
-        switch (playerNumber) {
-            case 1:
-                return _player1;
-            case 2:
-                return _player2;
-            default:
-                throw Error("Invalid argument: playerNumber must be either 1 or 2");
-        }
+        if (playerNumber === 1) return _player1;
+        else if (playerNumber === 2) return _player2;
+        else throw Error("Invalid argument: playerNumber must be either 1 or 2");
     };
 
     const getPlayerByMark = (playerMark) => { 
         playerMark = playerMark.toLowerCase();
-        if (!["x", "o"].includes(playerMark)) {
-            return null;
-        }
+        if (!["x", "o"].includes(playerMark)) return null;
 
-        let player1 = getPlayerByNumber(1);
-        if (player1.getMark() === playerMark) {
-            return player1;
-        }
-        
-       return getPlayerByNumber(2);
+        let player1 = getPlayerByNumber(1); // Refactor this
+        if (player1.getMark() === playerMark) return player1;
+        else return getPlayerByNumber(2);
     }
 
     const setPlayers = (namePlayer1, namePlayer2) => {
-        if (!namePlayer1) {
-            throw Error("At least one player name should be provided");
-        }
+        if (!namePlayer1) throw Error("At least one player name should be provided");
 
         _setPlayer(1, namePlayer1, "x", true)
         namePlayer2 ? _setPlayer(2, namePlayer2, "o", true) :
@@ -103,16 +91,9 @@ const gameState = (() => {
     }
 
     const _setPlayer = (playerNumber, name, mark, isHuman) => {
-        switch (playerNumber) {
-            case 1:
-                _player1 = Player(name, mark, isHuman);
-                break;
-            case 2:
-                _player2 = Player(name, mark, isHuman);
-                break;
-            default:
-                throw Error("Invalid argument: playerNumber must be either 1 or 2");
-        }
+        if (playerNumber === 1) _player1 = Player(name, mark, isHuman);
+        else if (playerNumber === 2) _player2 = Player(name, mark, isHuman);
+        else throw Error("Invalid argument: playerNumber must be either 1 or 2");
     };
 
     const getCurrentTurnPlayer = () => _currentTurnPlayer;
@@ -195,9 +176,7 @@ const displayController = (() => {
                 _menu.classList.remove("hidden");
                 gameboard.getElement().classList.add("blur");
             }
-            else {
-                throw Error("Invalid argument: state must be 'off' or 'on'");
-            }
+            else throw Error("Invalid argument: state must be 'off' or 'on'");
         }
 
         const showGameModeSelection = () => {
@@ -274,9 +253,7 @@ const displayController = (() => {
         const _clearMenu = () => {
             _title.textContent = "";
             
-            while (_content.lastElementChild) {
-                _content.removeChild(_content.lastElementChild);
-            }
+            while (_content.lastElementChild) _content.removeChild(_content.lastElementChild);
         };
 
         const showGameResult = () => {
@@ -307,8 +284,7 @@ const displayController = (() => {
             showGameResult,
             getGameModeButtons,
             getPlayerNameForm,
-            getPlayAgainButton,
-        };
+            getPlayAgainButton,        };
     })();
 
     return {
@@ -319,26 +295,15 @@ const displayController = (() => {
 
 const Player = (name, mark, isHuman) => {
     const _validMarks = ["x", "o"];
-    if (!_validMarks.includes(mark.toLowerCase())) {
-        throw Error("Invalid mark: mark must be 'x' or 'y'");
-    }
-
-    if (name.length < 2) {
-        throw Error("Invalid name: it must be at least 2 characters long");
-    }
-
-    if (typeof isHuman !== "boolean") {
-        throw Error("Invalid argument: 'isHuman' must be a boolean")
-    }
+    if (!_validMarks.includes(mark.toLowerCase())) throw Error("Invalid mark: mark must be 'x' or 'y'");
+    if (name.length < 2) throw Error("Invalid name: it must be at least 2 characters long");
+    if (typeof isHuman !== "boolean") throw Error("Invalid argument: 'isHuman' must be a boolean");
 
     const _name = name;
     const _mark = mark.toLowerCase()
 
     const makeMove = (positionX, positionY) => {
-        if (!_isValidMove(positionX, positionY)) {
-            throw Error("Invalid move");
-        }
-
+        if (!_isValidMove(positionX, positionY)) throw Error("Invalid move");
         gameboard.placePiece(_mark, positionX, positionY);
     }
 
@@ -434,11 +399,9 @@ const gameActions = (() => {
         const gameboardState = gameboard.getState();
         updateGameStateHelpers.updateWinner(gameboardState);
         updateGameStateHelpers.updateTie();
-        if (gameState.getWinnerPlayer() || gameState.isATie()) {
-            return gameState.setGameOver(true);
-        }
 
-        gameState.setGameOver(false);
+        if (gameState.getWinnerPlayer() || gameState.isATie()) return gameState.setGameOver(true);
+        else gameState.setGameOver(false);
     };
 
     return {
@@ -508,11 +471,8 @@ const updateGameStateHelpers = (() => {
     work properly, since it needs to check first whether there is already a winner */
     const updateTie = () => {
         const allSpacesTaken = (gameboard.getFreeMoves().length === 0) ? true : false; 
-        if (allSpacesTaken && !gameState.getWinnerPlayer()) {
-            return gameState.setTie(true);
-        }
-
-        gameState.setTie(false);
+        if (allSpacesTaken && !gameState.getWinnerPlayer()) return gameState.setTie(true);
+        else gameState.setTie(false);
     }
 
     return {
@@ -572,9 +532,7 @@ const gameController = (() => {
     };
 
     const _announceResultOnGameOver = () => {
-        if (gameState.isGameOver()) {
-            return startGameResultAnnouncement()
-        }
+        if (gameState.isGameOver()) return startGameResultAnnouncement();
     };
 
     return {
@@ -592,11 +550,7 @@ const bot = (() => {
     // Use the minimax algorithm to assign a score for each possible move
     const generateMoveCoords = (maximizingPlayer) => {
         const freeMoves = gameboard.getFreeMoves();
-        
-        for (const move of freeMoves) {
-            move.score = _evaluateMove(move, maximizingPlayer, 0);
-        }
-    
+        for (const move of freeMoves) move.score = _evaluateMove(move, maximizingPlayer, 0);
         const highestScoreMove = _getMoveByScore(freeMoves);
         
         return {
@@ -622,10 +576,8 @@ const bot = (() => {
     
         // Recursive case: game is not over yet, evaluate every possible next move
         const freeMoves = gameboard.getFreeMoves();
-        for (const nextMove of freeMoves) {
-            nextMove.score = _evaluateMove(nextMove, maximizingPlayer, depth + 1);
-        }
-    
+        for (const nextMove of freeMoves) nextMove.score = _evaluateMove(nextMove, maximizingPlayer, depth + 1);
+        
         const currentTurnPlayer = gameState.getCurrentTurnPlayer();
         if (currentTurnPlayer === maximizingPlayer) moveScore = _getMoveByScore(freeMoves).score;
         else moveScore = _getMoveByScore(freeMoves, true).score;
@@ -640,7 +592,7 @@ const bot = (() => {
         gameActions.updateGameState();
         gameActions.switchTurns();
     };
-        
+
     const _undoSimulatedMove = (move) => {
         const currentTurnPlayer = gameState.getCurrentTurnPlayer();
         gameboard.removePiece(move.x, move.y);
