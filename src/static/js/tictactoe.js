@@ -12,16 +12,6 @@ const gameboard = (() => {
         _squareGrid[positionY][positionX] = "";
     };
 
-    const areAllSpacesTaken = () => {
-        for (const row of _squareGrid) {
-            for (const space of row) {
-                if (space == "") return false;
-            }
-        }
-
-        return true;
-    }
-
     const getFreeMoves = () => {
         let freeMoves = [];
 
@@ -39,7 +29,6 @@ const gameboard = (() => {
         getState,
         placePiece,
         removePiece,
-        areAllSpacesTaken,
         getFreeMoves,
     };
 })();
@@ -518,7 +507,8 @@ const updateGameStateHelpers = (() => {
     /* The winner state must be updated before calling this function or else it won't
     work properly, since it needs to check first whether there is already a winner */
     const updateTie = () => {
-        if (gameboard.areAllSpacesTaken() && !gameState.getWinnerPlayer()) {
+        const allSpacesTaken = (gameboard.getFreeMoves().length === 0) ? true : false; 
+        if (allSpacesTaken && !gameState.getWinnerPlayer()) {
             return gameState.setTie(true);
         }
 
