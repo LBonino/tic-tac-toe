@@ -1,3 +1,4 @@
+(() => {
 const gameboard = (() => {
     let _squareGrid = [["", "", ""], ["", "", ""], ["", "", ""]];
 
@@ -537,8 +538,6 @@ const gameController = (() => {
     };
 })();
 
-gameController.initializeGame();
-
 const bot = (() => {
     // Use the minimax algorithm to assign a score for each possible move
     const generateMoveCoords = (maximizingPlayer) => {
@@ -603,5 +602,7 @@ const bot = (() => {
     return {
         generateMoveCoords,
     };
+})();
 
+gameController.initializeGame();
 })();
