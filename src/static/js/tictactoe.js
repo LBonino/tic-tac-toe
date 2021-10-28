@@ -319,11 +319,13 @@ const Player = (name, mark, isHuman) => {
 
     const getName = () => name;
     const getMark = () => mark;
+    const isBot = () => !isHuman;
 
     return {
         makeMove,
         getName,
         getMark,
+        isBot,
     };
 };
 
@@ -364,31 +366,19 @@ const gameActions = (() => {
         updateGameState();
 
         if (gameState.getHumanPlayerNumber() === 1 && !gameState.isGameOver()) { 
-            _playTurn.call(this);
+            _playTurn.call();
             updateGameState();
         }
     }
 
     const _playTurn = function() {
-        const player1 = gameState.getPlayerByNumber(1);
-        const player2 = gameState.getPlayerByNumber(2);
         const currentTurnPlayer = gameState.getCurrentTurnPlayer();
-        const moveXCoord = this.dataset.positionx;
-        const moveYCoord = this.dataset.positiony;
+        const moveCoords = (currentTurnPlayer.isBot()) ? 
+        bot.generateMoveCoords(currentTurnPlayer) :
+        {x: this.dataset.positionx, y: this.dataset.positiony};
 
-        if (currentTurnPlayer === player1) {
-            player1.makeMove(moveXCoord, moveYCoord);
-            displayController.gameboard.drawMark(player1.getMark(), moveXCoord, moveYCoord);
-        }
-        else {
-            const moveCoords = (gameState.getHumanPlayerNumber() === 1) ? 
-            bot.generateMoveCoords(currentTurnPlayer) :
-            {x: moveXCoord, y: moveYCoord};
-
-            player2.makeMove(moveCoords.x, moveCoords.y);
-            displayController.gameboard.drawMark(player2.getMark(), moveCoords.x, moveCoords.y);
-        }
-
+        currentTurnPlayer.makeMove(moveCoords.x, moveCoords.y);
+        displayController.gameboard.drawMark(currentTurnPlayer.getMark(), moveCoords.x, moveCoords.y);
         switchTurns();
     };
 
