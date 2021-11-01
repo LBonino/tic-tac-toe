@@ -154,4 +154,24 @@ header {
 #header-title {
     margin: 0;
 }
+
+footer {
+    width: 100%;
+    height: 7%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 3vh;
+    font-weight: bold;
+    background-color: #444;
+}
+
+#github-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+#github-link:hover {
+    text-decoration: underline;
 }
