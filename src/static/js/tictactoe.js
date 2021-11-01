@@ -217,6 +217,7 @@ const displayController = (() => {
             itemStartGame.appendChild(startGame);
 
             const unorderedList = document.createElement("ul");
+            unorderedList.id = "form-controls";
             unorderedList.appendChild(itemPlayer1);
 
             // Add list item for player 2 if the user selects multiplayer mode
@@ -229,9 +230,10 @@ const displayController = (() => {
             unorderedList.appendChild(itemStartGame);
 
             const form = _playerNameForm;
+            form.id = "player-name-form";
             form.appendChild(unorderedList);
 
-            _content.className = "player-name-form";
+            _content.className = "player-name-selection";
             _content.appendChild(form);
         }
 
