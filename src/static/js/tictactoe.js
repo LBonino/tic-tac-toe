@@ -279,6 +279,12 @@ const displayController = (() => {
             _content.appendChild(playAgain);
         }
 
+        const updateTurnInfo = () => {
+            const turnInfo = document.querySelector("#turn-info");
+            const currentTurnPlayer = gameState.getCurrentTurnPlayer();
+            turnInfo.textContent = (currentTurnPlayer) ? `${currentTurnPlayer.getName()}'s turn` : "";
+        }
+
         const getGameModeButtons = () => _gameModeButtons;
         const getPlayerNameForm = () => _playerNameForm;
         const getPlayAgainButton = () => _playAgainButton;
@@ -289,9 +295,11 @@ const displayController = (() => {
             showGameModeSelection,
             showPlayerNameForm,
             showGameResult,
+            updateTurnInfo,
             getGameModeButtons,
             getPlayerNameForm,
-            getPlayAgainButton,        };
+            getPlayAgainButton,        
+        };
     })();
 
     return {
