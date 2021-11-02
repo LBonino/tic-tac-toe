@@ -375,10 +375,16 @@ const gameActions = (() => {
     const handleTurn = function() {
         _playTurn.call(this);
         updateGameState();
+        // Refactor this later
+        if (gameState.isGameOver()) gameState.setCurrentTurnPlayer(null);
+        displayController.menu.updateTurnInfo();
 
         if (gameState.getHumanPlayerNumber() === 1 && !gameState.isGameOver()) { 
             _playTurn.call();
             updateGameState();
+            // Refactor this later
+            if (gameState.isGameOver()) gameState.setCurrentTurnPlayer(null);
+            displayController.menu.updateTurnInfo();
         }
     }
 
@@ -525,6 +531,7 @@ const gameController = (() => {
         });
 
         gameState.setCurrentTurnPlayer(1);
+        displayController.menu.updateTurnInfo();
     };
 
     const startGameResultAnnouncement = () => {
