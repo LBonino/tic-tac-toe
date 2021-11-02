@@ -526,7 +526,9 @@ const gameController = (() => {
             cell.addEventListener("click", _announceResultOnGameOver)
         });
 
-        gameState.setCurrentTurnPlayer(1);
+        const randomPlayerNumber = Math.floor(Math.random() * 2) + 1;
+        gameState.setCurrentTurnPlayer(randomPlayerNumber);
+        if (gameState.getCurrentTurnPlayer().isBot()) gameActions.handleTurn();
         displayController.menu.updateTurnInfo();
     };
 
