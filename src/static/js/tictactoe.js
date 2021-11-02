@@ -380,7 +380,7 @@ const gameActions = (() => {
 
         const currentTurnPlayer = gameState.getCurrentTurnPlayer();
         if (currentTurnPlayer) {
-            if (currentTurnPlayer.isBot()) handleTurn();
+            if (currentTurnPlayer.isBot()) setTimeout(gameActions.handleTurn, 1500);
         }
     }
 
@@ -528,7 +528,7 @@ const gameController = (() => {
 
         const randomPlayerNumber = Math.floor(Math.random() * 2) + 1;
         gameState.setCurrentTurnPlayer(randomPlayerNumber);
-        if (gameState.getCurrentTurnPlayer().isBot()) gameActions.handleTurn();
+        if (gameState.getCurrentTurnPlayer().isBot()) setTimeout(gameActions.handleTurn, 1500);
         displayController.menu.updateTurnInfo();
     };
 
