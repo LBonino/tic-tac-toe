@@ -77,7 +77,7 @@ const gameState = (() => {
     const getPlayerByNumber = (playerNumber) => {
         if (playerNumber === 1) return _player1;
         else if (playerNumber === 2) return _player2;
-        else throw Error("Invalid argument: playerNumber must be either 1 or 2");
+        else return null;
     };
 
     const getPlayerByMark = (playerMark) => { 
