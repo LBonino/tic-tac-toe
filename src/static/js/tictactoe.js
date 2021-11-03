@@ -382,6 +382,8 @@ const gameActions = (() => {
         if (currentTurnPlayer) {
             if (currentTurnPlayer.isBot()) setTimeout(gameActions.handleTurn, 1500);
         }
+
+        gameController.announceResultOnGameOver();
     }
 
     const _playTurn = function() {
@@ -523,7 +525,6 @@ const gameController = (() => {
         const gameboardCells = Array.from(displayController.gameboard.getElement().children);
         gameboardCells.forEach(cell => {
             cell.addEventListener("click", gameActions.handleTurn);
-            cell.addEventListener("click", _announceResultOnGameOver)
         });
 
         const randomPlayerNumber = Math.floor(Math.random() * 2) + 1;
@@ -540,7 +541,7 @@ const gameController = (() => {
         playAgainButton.addEventListener("click", initializeGame);
     };
 
-    const _announceResultOnGameOver = () => {
+    const announceResultOnGameOver = () => {
         if (gameState.isGameOver()) return startGameResultAnnouncement();
     };
 
@@ -550,6 +551,7 @@ const gameController = (() => {
         startPlayerInitialization,
         startRound,
         startGameResultAnnouncement,
+        announceResultOnGameOver,
     };
 })();
 
