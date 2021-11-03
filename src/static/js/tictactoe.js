@@ -147,11 +147,17 @@ const displayController = (() => {
 
         const clear = () => {_gameboardCells.forEach((cell) => cell.textContent = "")};
         const getElement = () => _gameboard;
+        const setEnabled = (enabled) => {
+            if (enabled) _gameboard.classList.remove("disabled-pointer-events");
+            else _gameboard.classList.add("disabled-pointer-events");
+        }
+
 
         return {
             drawMark,
             clear,
             getElement,
+            setEnabled,
         };
     })();
 
@@ -380,9 +386,14 @@ const gameActions = (() => {
 
         const currentTurnPlayer = gameState.getCurrentTurnPlayer();
         if (currentTurnPlayer) {
-            if (currentTurnPlayer.isBot()) setTimeout(gameActions.handleTurn, 1500);
+            if (currentTurnPlayer.isBot()) {
+                // While the bot "thinks" its move, the gameboard should be disabled
+                displayController.gameboard.setEnabled(false);
+                setTimeout(gameActions.handleTurn, 1500);
+            }
+            else displayController.gameboard.setEnabled(true);
         }
-
+        
         gameController.announceResultOnGameOver();
     }
 

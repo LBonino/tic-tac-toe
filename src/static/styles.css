@@ -140,6 +140,10 @@ body {
     filter: blur(2px);
 }
 
+.disabled-pointer-events {
+    pointer-events: none;
+}
+
 #turn-info {
     width: 100%;
     height: 10%;
