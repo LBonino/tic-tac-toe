@@ -389,9 +389,11 @@ const gameActions = (() => {
             if (currentTurnPlayer.isBot()) {
                 // While the bot "thinks" its move, the gameboard should be disabled
                 displayController.gameboard.setEnabled(false);
-                setTimeout(gameActions.handleTurn, 1500);
+                setTimeout(() => {
+                    gameActions.handleTurn();
+                    displayController.gameboard.setEnabled(true);
+                }, 1500);
             }
-            else displayController.gameboard.setEnabled(true);
         }
         
         gameController.announceResultOnGameOver();
