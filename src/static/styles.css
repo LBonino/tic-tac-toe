@@ -5,6 +5,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    background-color: lightcyan;
 }
 
 #game-container {
@@ -49,14 +50,13 @@ body {
 #gameboard {
     height: 100%;
     width: 100%;
-    background-color: lightgray;
-    border: 2px black solid;
+    background-color: #333;
     display: grid;
     grid-template: repeat(3, 1fr) / repeat(3, 1fr);
 }
 
 .gameboard-cell {
-    border: solid 1px black;
+    border: solid 1px white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -64,16 +64,26 @@ body {
     user-select: none;
 }
 
+.x-mark-color {
+    color: #F83083;
+}
+
+.o-mark-color {
+    color: #0FF696;
+}
+
 .menu {
     position: absolute;
     height: 65%;
     width: 80%;
     background-color: lightgray;
-    border: 2px black solid;
+    border: 2px white solid;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: white;
+    background-color: rgba(34, 34, 34, 0.8);
 }
 
 #menu-title{
@@ -120,6 +130,7 @@ body {
 
 #form-controls > li > button {
     font-size: 0.8em;
+    padding: 0.5em;
 }
 
 #form-controls > li > label {
@@ -130,6 +141,11 @@ body {
     width: 6em;
     padding: 0.4em;
     font-size: 0.8em;
+}
+
+.game-result > button {
+    font-size: 0.6em;
+    padding: 0.5em;
 }
 
 .hidden {
@@ -153,6 +169,7 @@ body {
     justify-content: center;
     align-items: flex-end;
     font-size: 0.28em;
+    font-weight: bold;
 }
 
 header {
@@ -163,7 +180,7 @@ header {
     align-items: center;
     color: white;
     font-size: 1.4rem;
-    background-color: #444;
+    background-color: #272727;
 }
 
 #header-title {
@@ -179,7 +196,7 @@ footer {
     color: white;
     font-size: 1.2rem;
     font-weight: bold;
-    background-color: #444;
+    background-color: #272727;
 }
 
 #github-link {
