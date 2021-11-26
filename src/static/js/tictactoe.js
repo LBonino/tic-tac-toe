@@ -142,6 +142,16 @@ const displayController = (() => {
         const drawMark = (mark, positionX, positionY) => {
             const cell = _gameboardCells.filter((cell) => cell.dataset.positionx == positionX &&
                                                           cell.dataset.positiony == positionY)[0];
+            
+            if (mark.toLowerCase() === "x") {
+                cell.classList.add("x-mark-color");
+                cell.classList.remove("o-mark-color");
+            }
+            else {
+                cell.classList.add("o-mark-color");
+                cell.classList.remove("x-mark-color");
+            }
+
             cell.textContent = mark.toUpperCase();
         }
 
